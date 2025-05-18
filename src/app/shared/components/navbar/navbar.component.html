@@ -1,0 +1,27 @@
+<nav class="flex gap-y-4 flex-col p-4 bg-white shadow-md">
+  <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-col">
+      <span class="text-sm font-semibold inline-block align-bottom">
+        Entregar en
+        <ng-icon name="matExpandMoreRound"></ng-icon>
+      </span> <span class="text-xs text-gray-500">Chacabuco 441, Mendoza, Mendoza</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <div class="relative">
+        <button class="text-gray-700">
+          <ng-icon color="black" size="24" class="h-6 w-6" name="matShoppingCartRound"></ng-icon>
+        </button>
+        <span
+          class="absolute -top-2 -right-2 bg-black text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">9</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+    <ng-icon name="matSearchRound" size="20" class="text-gray-500"></ng-icon>
+    <input
+      type="text"
+      placeholder="Busca eso que tanto te gusta"
+      class="bg-transparent outline-none text-sm text-gray-700 ml-2 w-full"
+    />
+  </div>
+</nav>
