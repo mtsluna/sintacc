@@ -1,6 +1,6 @@
-<nav class="flex gap-y-4 flex-col p-4 bg-white shadow-md">
+<nav class="sticky top-0 flex gap-y-4 flex-col p-4 bg-white shadow-md z-50">
   <div class="flex flex-row justify-between items-center">
-    <div class="flex flex-col">
+    <div (click)="navigateToProfileAddress()" class="flex flex-col">
       <span class="text-sm font-semibold inline-block align-bottom">
         Entregar en
         <ng-icon name="matExpandMoreRound"></ng-icon>
@@ -8,7 +8,7 @@
     </div>
     <div class="flex items-center space-x-4">
       <div class="relative">
-        <button class="text-gray-700">
+        <button (click)="navigateToCart()" class="text-gray-700">
           <ng-icon color="black" size="24" class="h-6 w-6" name="matShoppingCartRound"></ng-icon>
         </button>
         <span
@@ -20,7 +20,7 @@
     <ng-icon name="matSearchRound" size="20" class="text-gray-500"></ng-icon>
     <input
       type="text"
-      placeholder="Busca eso que tanto te gusta"
+      placeholder="Busca tus bebidas"
       class="bg-transparent outline-none text-sm text-gray-700 ml-2 w-full"
     />
   </div>
