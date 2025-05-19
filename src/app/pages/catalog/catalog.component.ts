@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import {NgOptimizedImage} from '@angular/common';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {Product} from '../../interfaces/product';
 
 @Component({
   selector: 'app-catalog',
   imports: [
-    NgOptimizedImage,
     CardComponent
   ],
   templateUrl: './catalog.component.html',

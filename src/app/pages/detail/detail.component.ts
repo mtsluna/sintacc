@@ -1,13 +1,15 @@
 import {Component, inject} from '@angular/core';
 import {Product} from '../../interfaces/product';
 import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
+import {BackButtonComponent} from '../../shared/components/back-button/back-button.component';
 
 @Component({
   selector: 'app-detail',
   imports: [
     NgOptimizedImage,
-    CurrencyPipe
+    CurrencyPipe,
+    BackButtonComponent
   ],
   templateUrl: './detail.component.html',
   standalone: true,
@@ -31,10 +33,5 @@ export class DetailComponent {
   }
 
   router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
 
-  async navigateToCatalog() {
-    const from = this.activatedRoute.snapshot.queryParamMap.get('from') || '/';
-    await this.router.navigate([from]);
-  }
 }

@@ -1,1 +1,13 @@
-<p>cart works!</p>
+<div class="max-w-lg mx-auto bg-white rounded-lg p-6 relative">
+  <h1 class="text-xl font-bold mb-2">Tu pedido</h1>
+  <h2 class="text-me text-gray-500 mb-4">Estás a un paso de disfrutar tu pedido</h2>
+
+  <div class="flex flex-col gap-4 py-4">
+    @for (product of products; track product) {
+      <app-card-row [product]="product"></app-card-row>
+    }
+  </div>
+
+  <app-back-button></app-back-button>
+
+</div>

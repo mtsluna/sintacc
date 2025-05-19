@@ -7,4 +7,5 @@ export interface Product {
   price: number;
   discount: number;
   images?: Array<Image>;
+  quantity?: number;
 }

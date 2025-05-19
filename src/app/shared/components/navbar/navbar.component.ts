@@ -24,11 +24,19 @@ export class NavbarComponent {
   router = inject(Router);
 
   async navigateToCart() {
-    await this.router.navigate(['/cart']);
+    await this.router.navigate(['/cart'], {
+      queryParams: {
+        from: this.router.url
+      }
+    });
   }
 
   async navigateToProfileAddress() {
-    await this.router.navigate(['/profile/address']);
+    await this.router.navigate(['/profile/address'], {
+      queryParams: {
+        from: this.router.url
+      }
+    });
   }
 
 }
