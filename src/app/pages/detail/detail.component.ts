@@ -1,12 +1,40 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {Product} from '../../interfaces/product';
+import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-detail',
-  imports: [],
+  imports: [
+    NgOptimizedImage,
+    CurrencyPipe
+  ],
   templateUrl: './detail.component.html',
   standalone: true,
-  styleUrl: './detail.component.css'
+  styleUrl: './detail.component.scss'
 })
 export class DetailComponent {
 
+  product: Product = {
+    name: 'Catena Zapata Malbec Argentino 750ml',
+    price: 95000,
+    images: [
+      {
+        id: '123',
+        url: 'https://acdn-us.mitiendanube.com/stores/004/090/131/products/5173-zapata-malbecargentino-57697795e348a757ef17065395157362-1024-1024.jpg',
+        alt: 'Catena Zapata Malbec Argentino 750ml'
+      }
+    ],
+    id: '124',
+    description: 'Un vinito',
+    discount: 10
+  }
+
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+
+  async navigateToCatalog() {
+    const from = this.activatedRoute.snapshot.queryParamMap.get('from') || '/';
+    await this.router.navigate([from]);
+  }
 }

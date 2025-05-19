@@ -22,6 +22,10 @@ export class CardComponent {
   protected readonly console = console;
 
   async navigateToDetail() {
-    await this.router.navigate(['/detail', this.product?.id]);
+    await this.router.navigate(['/detail', this.product?.id], {
+      queryParams: {
+        from: this.router.url
+      }
+    });
   }
 }
