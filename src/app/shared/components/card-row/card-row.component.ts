@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {Product} from '../../../interfaces/product';
 import {CurrencyPipe, NgClass} from '@angular/common';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {matDeleteRound} from '@ng-icons/material-icons/round';
+import {CartService} from '../../../services/cart/cart.service';
 
 @Component({
   selector: 'app-card-row',
@@ -25,31 +26,18 @@ export class CardRowComponent {
   @Input()
   product: Product | undefined;
 
+  cartService = inject(CartService);
+
   increaseQuantity(product: Product | undefined) {
-    // if(product?.quantity === 99) {
-    //   return;
-    // }
-    //
-    // this.moveQuantity(product?.id, 1);
+    this.cartService.increaseQuantity(product);
   }
 
   decreaseQuantity(product: Product | undefined) {
-    // if(product?.quantity === 0) {
-    //   return;
-    // }
-    //
-    // this.moveQuantity(product?.id, -1);
+    this.cartService.decreaseQuantity(product);
   }
 
   removeProduct(product: Product | undefined) {
-    // console.log(this.products.findIndex((p: Product) => p?.id === product?.id))
-    // this.products.splice(this.products.findIndex((p: Product) => p?.id === product?.id), 1)
-  }
-
-  moveQuantity(id: string | undefined, modifier: number) {
-    // const actualQuantity = this.products.find((p: Product) => p?.id === id)!.quantity;
-    //
-    // this.products.find((p: Product) => p?.id === id)!.quantity = (actualQuantity || 0) + modifier;
+    this.cartService.removeProduct(product);
   }
 
 }

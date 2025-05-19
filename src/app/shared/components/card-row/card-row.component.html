@@ -9,17 +9,17 @@
     <span class="text-xs line-through text-gray-400 block">{{ product?.price | currency }}</span>
     <span class="text-sm font-semibold text-gray-800">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0) / 100)) | currency }}</span>
     <div class="flex flex-row gap-2 pt-2">
-      @if(product?.quantity === 0) {
-        <button [disabled]="product?.quantity !== 0" (click)="removeProduct(product)" class="bg-white-500 border text-black w-7 rounded text-xs font-bold">
+      @if(product?.quantity === 1) {
+        <button [disabled]="product?.quantity !== 1" (click)="removeProduct(product)" class="bg-white-500 border text-black w-7 rounded text-xs font-bold">
           <ng-icon size="16" name="matDeleteRound"></ng-icon>
         </button>
       } @else {
-        <button [disabled]="product?.quantity === 0" [ngClass]="product?.quantity === 0 ? 'bg-gray-100': 'bg-white-500'" (click)="decreaseQuantity(product)" class="bg-white-500 border text-black px-2 py-1 w-7 rounded text-xs font-bold">
+        <button [disabled]="product?.quantity === 1" [ngClass]="product?.quantity === 0 ? 'bg-gray-200': 'bg-white-500'" (click)="decreaseQuantity(product)" class="bg-white-500 border text-black px-2 py-1 w-7 rounded text-xs font-bold">
           -
         </button>
       }
       <div class="w-8 text-center">{{ product?.quantity }}</div>
-      <button [disabled]="product?.quantity === 99" [ngClass]="product?.quantity === 99 ? 'bg-gray-500': 'bg-white-500'" (click)="increaseQuantity(product)" class="bg-white-500 border text-black px-2 py-1 w-7 rounded text-xs font-bold">
+      <button [disabled]="product?.quantity === 99" [ngClass]="product?.quantity === 99 ? 'bg-gray-200': 'bg-white-500'" (click)="increaseQuantity(product)" class="bg-white-500 border text-black px-2 py-1 w-7 rounded text-xs font-bold">
         +
       </button>
     </div>

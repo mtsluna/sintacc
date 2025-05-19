@@ -1,22 +1,24 @@
-<div (click)="navigateToDetail()" class="bg-white shadow-md rounded-lg overflow-hidden relative">
+<div  class="bg-white shadow-md rounded-lg overflow-hidden relative">
 
-  <div class="relative w-full h-48 object-cover bg-gray-100">
-    @if (product?.images) {
-      <img
-        ngSrc="{{product?.images?.[0]?.url}}"
-        alt="{{product?.images?.[0]?.alt}}"
-        class="relative w-full h-48 object-cover"
-        style="position: relative;"
-        fill/>
-    }
-  </div>
-  <div class="p-4">
-    <h3 class="text-lg font-medium mb-2 line-clamp-2 min-h-[3.5rem]">{{ product?.name || 'Sin titulo' }}</h3>
-    <p class="text-gray-400 text-xs line-through">{{ (product?.price || 0) | currency }}</p>
-    <p class="text-gray-600">{{ (product?.price || 0) - ((product?.price || 0) * (product?.discount || 0) / 100) | currency }}</p>
-  </div>
+  <ng-container (click)="navigateToDetail()">
+    <div class="relative w-full h-48 object-cover bg-gray-100">
+      @if (product?.images) {
+        <img
+          ngSrc="{{product?.images?.[0]?.url}}"
+          alt="{{product?.images?.[0]?.alt}}"
+          class="relative w-full h-48 object-cover"
+          style="position: relative;"
+          fill/>
+      }
+    </div>
+    <div class="p-4">
+      <h3 class="text-lg font-medium mb-2 line-clamp-2 min-h-[3.5rem]">{{ product?.name || 'Sin titulo' }}</h3>
+      <p class="text-gray-400 text-xs line-through">{{ (product?.price || 0) | currency }}</p>
+      <p class="text-gray-600">{{ (product?.price || 0) - ((product?.price || 0) * (product?.discount || 0) / 100) | currency }}</p>
+    </div>
+  </ng-container>
 
-  <button class="absolute top-2 right-2 bg-neutral-50 border text-black px-2 py-1 rounded text-xs font-bold">
+  <button (click)="addProduct(product)" class="absolute z-49 top-2 right-2 bg-neutral-50 border text-black px-2 py-1 rounded text-xs font-bold">
     +
   </button>
 

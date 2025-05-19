@@ -2,6 +2,7 @@ import {Component, inject, Input} from '@angular/core';
 import {Product} from '../../../interfaces/product';
 import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
+import {CartService} from '../../../services/cart/cart.service';
 
 @Component({
   selector: 'app-card',
@@ -18,6 +19,7 @@ export class CardComponent {
   @Input() product: Product | undefined;
 
   router = inject(Router);
+  cartService = inject(CartService);
 
   protected readonly console = console;
 
@@ -27,5 +29,9 @@ export class CardComponent {
         from: this.router.url
       }
     });
+  }
+
+  addProduct(product: Product | undefined) {
+    this.cartService.increaseQuantity(product);
   }
 }

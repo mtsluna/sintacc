@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-next-button',
@@ -8,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './next-button.component.scss'
 })
 export class NextButtonComponent {
+
+  @Input()
+  title: string | undefined;
+
+  @Input()
+  subtitle: string | undefined;
 
 }

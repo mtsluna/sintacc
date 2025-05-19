@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {Product} from '../../interfaces/product';
+import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
 
 @Component({
   selector: 'app-catalog',
-  imports: [
-    CardComponent
-  ],
+    imports: [
+        CardComponent,
+        NextButtonComponent
+    ],
   templateUrl: './catalog.component.html',
   standalone: true,
   styleUrl: './catalog.component.scss'
