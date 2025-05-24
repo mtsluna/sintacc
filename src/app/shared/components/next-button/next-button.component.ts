@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-next-button',
@@ -14,5 +15,10 @@ export class NextButtonComponent {
 
   @Input()
   subtitle: string | undefined;
+
+  @Input()
+  action: () => void = () => {}
+
+  router = inject(Router);
 
 }

@@ -1,11 +1,10 @@
 import {Component, inject} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {NavbarComponent} from './shared/components/navbar/navbar.component';
-import {NextButtonComponent} from './shared/components/next-button/next-button.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, NextButtonComponent],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'

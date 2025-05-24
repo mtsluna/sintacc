@@ -3,14 +3,16 @@ import {Product} from '../../interfaces/product';
 import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {BackButtonComponent} from '../../shared/components/back-button/back-button.component';
+import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
 
 @Component({
   selector: 'app-detail',
-  imports: [
-    NgOptimizedImage,
-    CurrencyPipe,
-    BackButtonComponent
-  ],
+    imports: [
+        NgOptimizedImage,
+        CurrencyPipe,
+        BackButtonComponent,
+        NextButtonComponent
+    ],
   templateUrl: './detail.component.html',
   standalone: true,
   styleUrl: './detail.component.scss'

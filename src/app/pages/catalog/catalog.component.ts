@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {Product} from '../../interfaces/product';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
@@ -28,6 +29,16 @@ export class CatalogComponent {
     id: '124',
     description: 'Un vinito',
     discount: 10
+  }
+
+  router = inject(Router);
+
+  async navigateToCart() {
+    await this.router.navigate(['/cart'], {
+      queryParams: {
+        from: this.router.url
+      }
+    });
   }
 
 }
