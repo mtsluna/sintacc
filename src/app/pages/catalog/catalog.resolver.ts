@@ -59,6 +59,48 @@ export const catalogResolver: ResolveFn<{
           id: '124',
           description: 'Un vinito',
           discount: 0
+        },
+        {
+          name: 'Santa Julia Tardio 750ml',
+          price: 9500,
+          images: [
+            {
+              id: '123',
+              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
+              alt: 'Santa Julia Tardio 750ml'
+            }
+          ],
+          id: '124',
+          description: 'Un vinito',
+          discount: 0
+        },
+        {
+          name: 'Santa Julia Tardio 750ml',
+          price: 9500,
+          images: [
+            {
+              id: '123',
+              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
+              alt: 'Santa Julia Tardio 750ml'
+            }
+          ],
+          id: '124',
+          description: 'Un vinito',
+          discount: 0
+        },
+        {
+          name: 'Santa Julia Tardio 750ml',
+          price: 9500,
+          images: [
+            {
+              id: '123',
+              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
+              alt: 'Santa Julia Tardio 750ml'
+            }
+          ],
+          id: '124',
+          description: 'Un vinito',
+          discount: 0
         }
       ]
     }
