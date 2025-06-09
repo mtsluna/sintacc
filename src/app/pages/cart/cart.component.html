@@ -9,5 +9,11 @@
   </div>
 
   <app-back-button></app-back-button>
-  <app-next-button class="fixed bottom-4 left-4 w-full" title="Ir al checkout" subtitle="Tu carrito esta listo!"></app-next-button>
+
+  @if (products.length === 0) {
+    <app-next-button class="fixed bottom-4 left-4 w-full" [action]="navigateToFrom" title="Ir al catalogo" subtitle="Tu carrito esta vacio!"></app-next-button>
+  } @else {
+    <app-next-button class="fixed bottom-4 left-4 w-full" title="Ir al checkout" subtitle="Tu carrito esta listo!"></app-next-button>
+  }
+
 </div>

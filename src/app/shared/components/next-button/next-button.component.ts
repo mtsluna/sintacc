@@ -1,5 +1,5 @@
 import {Component, inject, Input} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-next-button',
@@ -20,5 +20,6 @@ export class NextButtonComponent {
   action: () => void = () => {}
 
   router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
 
 }

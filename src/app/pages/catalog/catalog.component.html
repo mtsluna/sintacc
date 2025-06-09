@@ -1,9 +1,16 @@
-<div class="relative mb-20 grid grid-cols-2 sm:grid-cols-2 gap-4 p-4">
-  <app-card [product]="productCatena"></app-card>
-  <app-card></app-card>
-  <app-card></app-card>
-  <app-card></app-card>
-  <app-card></app-card>
-  <app-card></app-card>
+<div class="relative p-4 mb-20 flex flex-col gap-8">
+  @for (category of categories; track category) {
+    <div>
+      <div class="flex flex-row items-center justify-between mb-4">
+        <h1 class="text-lg font-medium">{{category.name}}</h1>
+        <h3 class="font-light text-sm" (click)="navigateToCategory(category)">Mostrar más</h3>
+      </div>
+      <div class="relative grid grid-cols-2 sm:grid-cols-2 gap-4">
+        @for (product of category.products; track product) {
+          <app-card [product]="product"></app-card>
+        }
+      </div>
+    </div>
+  }
   <app-next-button [action]="navigateToCart" class="fixed bottom-4 left-4 w-full" title="Ir al carrito" subtitle="Tu carrito esta listo!"></app-next-button>
 </div>

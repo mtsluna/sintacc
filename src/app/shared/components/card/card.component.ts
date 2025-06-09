@@ -1,6 +1,6 @@
 import {Component, inject, Input} from '@angular/core';
 import {Product} from '../../../interfaces/product';
-import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
+import {CurrencyPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 
@@ -8,7 +8,8 @@ import {CartService} from '../../../services/cart/cart.service';
   selector: 'app-card',
   imports: [
     NgOptimizedImage,
-    CurrencyPipe
+    CurrencyPipe,
+    NgClass
   ],
   templateUrl: './card.component.html',
   standalone: true,

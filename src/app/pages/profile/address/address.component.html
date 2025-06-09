@@ -1,1 +1,24 @@
-<p>address works!</p>
+<div class="relative">
+  <app-back-button></app-back-button>
+
+  <div class="p-4">
+    <h1 class="text-xl font-bold mb-2">Mis Direcciones</h1>
+    <h2 class="text-me text-gray-500 mb-4">Configura donde recibir tu pedido</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+      @for (address of addresses; track address) {
+        <div (click)="setSelectedAddress(address)"
+             [class.selected]="address === selectedAddress"
+             class="border border-stone-400 p-4 rounded cursor-pointer"
+             [ngClass]="address === selectedAddress ? 'border-stone-900': 'border-stone-400'"
+        >
+          <h2 class="text-lg font-medium">{{ address.street }}</h2>
+          <p class="text-sm text-gray-600">{{ address.city }}</p>
+          <p class="text-sm text-gray-600"></p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <app-next-button class="fixed bottom-4 left-4 w-full" title="Agregar Dirección" subtitle="Enviamos a donde vos quieras"></app-next-button>
+</div>

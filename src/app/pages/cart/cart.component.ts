@@ -4,6 +4,7 @@ import {CardRowComponent} from '../../shared/components/card-row/card-row.compon
 import {BackButtonComponent} from '../../shared/components/back-button/back-button.component';
 import {CartService} from '../../services/cart/cart.service';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -19,11 +20,18 @@ import {NextButtonComponent} from "../../shared/components/next-button/next-butt
 export class CartComponent {
 
   cartService = inject(CartService);
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
 
   products: Array<Product>
 
   constructor() {
     this.products = this.cartService.getProducts();
+  }
+
+  navigateToFrom() {
+    const from = this.activatedRoute.snapshot.queryParamMap.get('from') || '/';
+    this.router.navigate([from]);
   }
 
 }
