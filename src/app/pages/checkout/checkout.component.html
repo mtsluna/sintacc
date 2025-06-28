@@ -1,0 +1,87 @@
+<div class="relative flex flex-col gap-4 max-w-lg mx-auto bg-white rounded-lg p-6 relative">
+  <div class="flex flex-col">
+    <h1 class="text-xl font-bold mb-2">Checkout</h1>
+    <h2 class="text-me text-gray-500 mb-4">Estás a un paso de disfrutar tu pedido</h2>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+      <h3 class="text-lg font-semibold">Datos de la entrega</h3>
+      <div class="flex flex-row text-sm justify-between mb-1 items-center">
+        <div class="flex flex-row items-center gap-2">
+          <ng-icon size="20" name="matMotorcycleRound"></ng-icon>
+          <div class="flex flex-col">
+            <div class="font-bold">Delivery</div>
+            <div class="font-light">25-45 min</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row text-sm justify-between mb-1 items-center">
+        <div class="flex flex-row items-center gap-2">
+          <ng-icon size="20" name="matLocationOnRound"></ng-icon>
+          <div class="flex flex-col">
+            <div class="font-bold">Enviar a</div>
+            <div class="font-light">Belgrano 815 Dpto 11</div>
+          </div>
+        </div>
+        <div class="font-medium">
+          Cambiar
+        </div>
+      </div>
+      <div class="flex flex-row text-sm justify-between mb-1 items-center">
+        <div class="flex flex-row items-center gap-2">
+          <ng-icon size="20" name="matNotesRound"></ng-icon>
+          <div class="flex flex-col">
+            <div class="font-bold">Instrucciones</div>
+            <div class="font-light">Porton negro con rejas</div>
+          </div>
+        </div>
+        <div class="font-medium">
+          Agregar
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  Resume-->
+  <div class="flex flex-col gap-4">
+    <div class="">
+      <h3 class="text-lg font-semibold mb-2">Resumen</h3>
+      <div class="flex text-sm justify-between mb-1">
+        <span>Total en productos</span>
+        <span class="font-light">{{ checkout?.products?.total | currency }}</span>
+      </div>
+      <div class="flex text-sm justify-between mb-1">
+        <span>Total en envío</span>
+        <span class="font-light">{{ checkout?.ship?.total | currency }}</span>
+      </div>
+    </div>
+    @if (checkout?.ship?.discount || checkout?.products?.discount) {
+      <div class="">
+        <h3 class="text-base font-semibold mb-2">Descuentos</h3>
+        @if (checkout?.products?.discount) {
+          <div class="flex text-sm justify-between mb-1">
+            <span>Productos</span>
+            <span class="font-light">{{ ((checkout?.products?.discount || 0) * - 1) | currency }}</span>
+          </div>
+        }
+        @if (checkout?.ship?.discount) {
+          <div class="flex text-sm justify-between mb-1">
+            <span>Envio</span>
+            <span class="font-light">{{ ((checkout?.ship?.discount || 0) * - 1) | currency }}</span>
+          </div>
+        }
+      </div>
+    }
+    <div class="flex justify-between text-lg font-bold">
+      <span>Total</span>
+      <span>{{ checkout?.total | currency }}</span>
+    </div>
+  </div>
+
+  <app-back-button></app-back-button>
+
+  <app-next-button class="fixed bottom-4 left-4 w-full" [action]="navigateToMercadoPago(checkout?.payment_link)" title="Ir a Mercadopago"
+                   subtitle="Estas a punto de terminar!"></app-next-button>
+
+</div>

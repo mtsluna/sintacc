@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
 import {Product} from '../../interfaces/product';
 
 @Injectable({
@@ -6,54 +8,152 @@ import {Product} from '../../interfaces/product';
 })
 export class CartService {
 
-  private products: Array<Product> = [];
+  private apiUrl = 'https://barsac-api-production.up.railway.app/api/carts';
+  private count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  increaseQuantity(product: Product | undefined) {
-    if((product?.quantity || 0) >= 99) {
+  createCart(userId: string): Observable<{ id: string }> {
+    return this.http.post<any>(this.apiUrl, { user_id: userId });
+  }
+
+  async increaseQuantity(fromCart: boolean, product: Product | undefined): Promise<any> {
+    let cart = localStorage.getItem('cart');
+
+    if (cart == null) {
+      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+
+      localStorage.setItem('cart', cart);
+    }
+
+    if((product?.quantity || 0) >= 99 || !cart || !product) {
       return;
     }
 
-    this.moveProduct(product, 1);
+    const update = await this.modifyProductQuantity(product.id, 1);
+
+    if(fromCart) {
+      product.quantity = update.quantity;
+      product.price = update.price;
+      product.original_price = update.original_price;
+    }
+
+    this.count.next(this.count.value + 1);
+
+    return update;
   }
 
-  decreaseQuantity(product: Product | undefined) {
-    if(product?.quantity === 0) {
+  async decreaseQuantity(fromCart: boolean, product: Product | undefined): Promise<any> {
+    let cart = localStorage.getItem('cart');
+
+    if (cart == null) {
+      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+
+      localStorage.setItem('cart', cart);
+    }
+
+    if((product?.quantity || 0) <= 0 || !cart || !product) {
       return;
     }
 
-    this.moveProduct(product, -1);
+    const update = await this.modifyProductQuantity(product.id, -1);
+
+    if(fromCart) {
+      product.quantity = update.quantity;
+      product.price = update.price;
+      product.original_price = update.original_price;
+    }
+
+    this.count.next(this.count.value - 1);
+
+    return update;
   }
 
-  removeProduct(product: Product | undefined) {
-    console.log(this.products.findIndex((p: Product) => p?.id === product?.id))
-    this.products.splice(this.products.findIndex((p: Product) => p?.id === product?.id), 1)
-  }
+  async removeProduct(product: Product | undefined): Promise<any>{
+    let cart = localStorage.getItem('cart');
 
-  getProducts() {
-    return this.products;
-  }
+    if (cart == null) {
+      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
 
-  countProducts() {
-    return this.products.reduce((previousValue, currentValue) => previousValue + (currentValue?.quantity || 0), 0)
-  }
+      localStorage.setItem('cart', cart);
+    }
 
-  moveProduct(product: Product | undefined, modifier: number) {
-    const existingProduct = this.products.find((p) => p.id == product?.id);
-
-    if(modifier === 1 && (existingProduct?.quantity || 0) >= 99) {
+    if (!cart || !product) {
       return;
     }
 
-    if(existingProduct) {
-      existingProduct.quantity = (existingProduct?.quantity || 0) + modifier;
-      this.products.splice(this.products.findIndex((p) => p.id == product?.id), 1, existingProduct);
-    } else if (product) {
-      this.products.push({
-        ...product,
-        quantity: 1
-      });
+    this.count.next(this.count.value - 1);
+
+    return await firstValueFrom(this.http.post<any>(`${this.apiUrl}/remove-product`, {
+      cart_id: cart,
+      product_id: product.id
+    }));
+  }
+
+  async getCart(): Promise<{
+    id: string; user_id: string; products: Array<{
+      product_id: string;
+      name: string;
+      image: string;
+      price: number;
+      original_price: number;
+      discount: number;
+      quantity: number;
+    }>;
+  }> {
+    let cart = localStorage.getItem('cart');
+
+    if (cart == null) {
+      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+
+      localStorage.setItem('cart', cart);
     }
+
+    return await firstValueFrom(this.http.get<{
+      id: string;
+      user_id: string;
+      products: Array<{
+        product_id: string;
+        name: string;
+        image: string;
+        price: number;
+        original_price: number;
+        discount: number;
+        quantity: number;
+      }>;
+    }>(`${this.apiUrl}/${cart}`));
+  }
+
+  async countProducts(): Promise<BehaviorSubject<number>> {
+    if(!this.count.value) {
+      this.count = new BehaviorSubject<number>(0);
+
+      const cart = await this.getCart();
+
+      this.count.next(cart.products.map((p) => p.quantity)
+        .reduce((a, b) => a + b))
+    }
+
+    return this.count;
+  }
+
+  private async modifyProductQuantity(productId: string, quantity: number): Promise<{
+    quantity: number;
+    price: number;
+    original_price: number;
+  }> {
+    let cart = localStorage.getItem('cart');
+
+    if (cart == null) {
+      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+
+      localStorage.setItem('cart', cart);
+    }
+
+    return await firstValueFrom(this.http.post<any>(`${this.apiUrl}/add-product`, {
+      cart_id: cart,
+      product_id: productId,
+      quantity
+    }));
   }
 }

@@ -2,10 +2,10 @@
 
   <div (click)="navigateToDetail()">
     <div class="relative w-full h-48 object-cover bg-gray-100">
-      @if (product?.images) {
+      @if (product?.image) {
         <img
-          ngSrc="{{product?.images?.[0]?.url}}"
-          alt="{{product?.images?.[0]?.alt}}"
+          ngSrc="{{product?.image}}"
+          alt="{{product?.image}}"
           class="relative w-full h-48 object-cover"
           style="position: relative;"
           fill/>

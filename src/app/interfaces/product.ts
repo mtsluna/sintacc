@@ -1,11 +1,10 @@
-import {Image} from './image';
-
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
+  original_price?: number;
   discount: number;
-  images?: Array<Image>;
+  image?: string;
   quantity?: number;
 }

@@ -1,114 +1,37 @@
 import {ResolveFn} from '@angular/router';
 import {Category} from '../../interfaces/category';
+import {inject} from '@angular/core';
+import {CategoryService} from '../../services/category/category.service';
+import {firstValueFrom} from 'rxjs';
+import {ProductService} from '../../services/product/product.service';
 
 export const catalogResolver: ResolveFn<{
   categories: Array<Category>
-}> = (route, _) => {
+}> = async (route, _) => {
 
-  const categoryId = route?.paramMap?.get('categoryId');
+  const categoryService = inject(CategoryService);
+  const productService = inject(ProductService);
 
-  const categories = [
-    {
-      name: 'Vinos Tintos',
-      url: 'vinos-tintos',
-      products: [
+  const category = route?.paramMap?.get('categoryId');
+  const q = route?.queryParamMap?.get('q');
+
+  if(q) {
+    const products = await firstValueFrom(productService.getProducts(q));
+
+    return {
+      categories: [
         {
-          name: 'Catena Zapata Malbec Argentino 750ml',
-          price: 95000,
-          images: [
-            {
-              id: '123',
-              url: 'https://acdn-us.mitiendanube.com/stores/001/384/985/products/malbec-argentino-20181-fd1b245d8f8a86f20f16642039177680-640-0.jpg',
-              alt: 'Catena Zapata Malbec Argentino 750ml'
-            }
-          ],
-          id: '124',
-          description: 'Un vinito',
-          discount: 10
-        },
-        {
-          name: 'Birth of Cabernet Catena Zapata 750ml',
-          price: 100000,
-          images: [
-            {
-              id: '123',
-              url: 'https://acdn-us.mitiendanube.com/stores/001/384/985/products/diseno-sin-titulo-19-1dcee8682854e6f50c17289160570710-1024-1024-2353278e0037c38cdf17290986542324-640-0.webp',
-              alt: 'Birth of Cabernet Catena Zapata 750ml'
-            }
-          ],
-          id: '124',
-          description: 'Un vinito',
-          discount: 5
-        }
-      ]
-    },
-    {
-      name: 'Vinos Blancos',
-      url: 'vinos-blancos',
-      products: [
-        {
-          name: 'Santa Julia Tardio 750ml',
-          price: 9500,
-          images: [
-            {
-              id: '123',
-              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
-              alt: 'Santa Julia Tardio 750ml'
-            }
-          ],
-          id: '124',
-          description: 'Un vinito',
-          discount: 0
-        },
-        {
-          name: 'Santa Julia Tardio 750ml',
-          price: 9500,
-          images: [
-            {
-              id: '123',
-              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
-              alt: 'Santa Julia Tardio 750ml'
-            }
-          ],
-          id: '124',
-          description: 'Un vinito',
-          discount: 0
-        },
-        {
-          name: 'Santa Julia Tardio 750ml',
-          price: 9500,
-          images: [
-            {
-              id: '123',
-              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
-              alt: 'Santa Julia Tardio 750ml'
-            }
-          ],
-          id: '124',
-          description: 'Un vinito',
-          discount: 0
-        },
-        {
-          name: 'Santa Julia Tardio 750ml',
-          price: 9500,
-          images: [
-            {
-              id: '123',
-              url: 'https://dcdn-us.mitiendanube.com/stores/001/170/302/products/santa-julia-tardio1-fe2086d36b6bd6779516722407201237-480-0.png',
-              alt: 'Santa Julia Tardio 750ml'
-            }
-          ],
-          id: '124',
-          description: 'Un vinito',
-          discount: 0
+          name: `Tu busqueda`,
+          url: 'search',
+          products
         }
       ]
     }
-  ];
+  }
 
-  console.log(categoryId ? categories.filter((category => category.url === categoryId)) : categories);
+  const categories = await firstValueFrom(categoryService.getCategories(category as string));
 
   return {
-    categories: categoryId ? categories.filter((category => category.url === categoryId)) : categories
+    categories
   }
 };

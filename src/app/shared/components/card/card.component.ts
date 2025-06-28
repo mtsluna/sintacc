@@ -32,7 +32,7 @@ export class CardComponent {
     });
   }
 
-  addProduct(product: Product | undefined) {
-    this.cartService.increaseQuantity(product);
+  async addProduct(product: Product | undefined) {
+    await this.cartService.increaseQuantity(false, product);
   }
 }

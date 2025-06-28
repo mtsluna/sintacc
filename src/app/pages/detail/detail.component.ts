@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {Product} from '../../interfaces/product';
 import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BackButtonComponent} from '../../shared/components/back-button/back-button.component';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
 import {RecommendationComponent} from '../../shared/sections/recommendation/recommendation.component';
@@ -21,21 +21,20 @@ import {RecommendationComponent} from '../../shared/sections/recommendation/reco
 })
 export class DetailComponent {
 
-  product: Product = {
-    name: 'Catena Zapata Malbec Argentino 750ml',
-    price: 95000,
-    images: [
-      {
-        id: '123',
-        url: 'https://acdn-us.mitiendanube.com/stores/004/090/131/products/5173-zapata-malbecargentino-57697795e348a757ef17065395157362-1024-1024.jpg',
-        alt: 'Catena Zapata Malbec Argentino 750ml'
-      }
-    ],
-    id: '124',
-    description: 'Un vinito',
-    discount: 10
-  }
-
+  product: Product | undefined;
   router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  constructor() {
+
+    this.route.data.subscribe({
+      next: (data) => {
+        this.product = data['detail']?.product || [];
+      },
+      error: (err) => {
+        console.error('Error loading catalog data:', err);
+      }
+    })
+  }
 
 }
