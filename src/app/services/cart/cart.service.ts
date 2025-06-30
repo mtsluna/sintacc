@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
 import {Product} from '../../interfaces/product';
+import {API_URL} from '../../constants/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private apiUrl = 'https://barsac-api-production.up.railway.app/api/carts';
+  private apiUrl = `${API_URL}/api/carts`;
   private count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) { }

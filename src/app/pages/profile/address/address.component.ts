@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {BackButtonComponent} from "../../../shared/components/back-button/back-button.component";
 import {Address} from '../../../interfaces/address';
 import {provideIcons} from '@ng-icons/core';
 import {matAddRound} from '@ng-icons/material-icons/round';
 import {NextButtonComponent} from '../../../shared/components/next-button/next-button.component';
 import {NgClass} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AddressService} from '../../../services/address/address.service';
 
 @Component({
   selector: 'app-address',
@@ -24,30 +26,40 @@ import {NgClass} from '@angular/common';
 })
 export class AddressComponent {
 
-  selectedAddress: Address = {
-    street: 'Avenida Paulista',
-    number: '1000',
-    extraInformation: '',
-    observation: 'Esquina com a Rua da Consolação',
-    latitude: '-23.5617',
-    longitude: '-46.6552',
-    city: 'São Paulo'
-  }
+  addressService = inject(AddressService);
+  activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
 
-  addresses: Array<Address> = [
-    {
-      street: 'Rua das Flores',
-      number: '123',
-      extraInformation: 'Apto 45',
-      observation: 'Próximo ao mercado',
-      latitude: '-23.5505',
-      longitude: '-46.6333',
-      city: 'São Paulo'
-    },
-    this.selectedAddress
-  ]
+  selectedAddress: Address | undefined;
+
+  addresses: Array<Address> = [];
 
   setSelectedAddress(address: Address) {
-    this.selectedAddress = address;
+    this.addressService.selectAddress(address.id, address.user_id).subscribe({
+      next: (next: Address) => {
+        this.addresses = this.addresses.map(a => ({...a, selected: a.id === next.id}));
+      }
+    })
+  }
+
+  constructor() {
+
+    this.activatedRoute.data.subscribe({
+      next: (data) => {
+        this.addresses = data['addresses'] || [];
+        this.selectedAddress = this.addresses[0];
+      },
+      error: (err) => {
+        console.error('Error loading catalog data:', err);
+      }
+    })
+  }
+
+  async navigateToAddAddress() {
+    await this.router.navigate(['/profile/address/add'], {
+      queryParams: {
+        from: this.activatedRoute.snapshot.queryParamMap.get('from') || '/'
+      }
+    });
   }
 }

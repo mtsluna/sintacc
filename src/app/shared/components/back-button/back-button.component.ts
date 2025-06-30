@@ -24,7 +24,8 @@ export class BackButtonComponent {
 
   async navigateToFrom() {
     const from = this.activatedRoute.snapshot.queryParamMap.get('from') || '/';
-    await this.router.navigate([from]);
+    console.log(from)
+    await this.router.navigateByUrl(from);
   }
 
 }

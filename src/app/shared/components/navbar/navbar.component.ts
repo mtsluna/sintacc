@@ -6,6 +6,8 @@ import {CartService} from '../../../services/cart/cart.service';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {debounceTime, distinctUntilChanged} from 'rxjs';
+import {Address} from '../../../interfaces/address';
+import {AddressService} from '../../../services/address/address.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,6 +35,8 @@ export class NavbarComponent implements OnInit {
   route = inject(ActivatedRoute);
   cartCount: number = 0;
   cartService = inject(CartService);
+  selectedAddress: Address | undefined;
+  addressService = inject(AddressService);
 
   constructor() {
     this.search.valueChanges.pipe(
@@ -59,6 +63,12 @@ export class NavbarComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error in queryParamMap:', err);
+      }
+    })
+
+    this.addressService.getSelectedAddress('79f72af8-4aac-46da-8a49-c2314caebb13').subscribe({
+      next: (value) => {
+        this.selectedAddress = value;
       }
     })
   }

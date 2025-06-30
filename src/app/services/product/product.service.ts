@@ -1,6 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Product} from '../../interfaces/product';
+import {API_URL} from '../../constants/api';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,10 @@ export class ProductService {
   constructor() { }
 
   getProductById(id: string) {
-    return this.httpClient.get<Product>(`https://barsac-api-production.up.railway.app/api/products/${id}`);
+    return this.httpClient.get<Product>(`${API_URL}/api/products/${id}`);
   }
 
   getProducts(q: string) {
-    return this.httpClient.get<Array<Product>>(`https://barsac-api-production.up.railway.app/api/products?q=${q}`);
+    return this.httpClient.get<Array<Product>>(`${API_URL}/api/products?q=${q}`);
   }
 }

@@ -1,9 +1,10 @@
 export interface Address {
-  street: string;
-  number: string;
-  city: string;
-  extraInformation: string;
-  observation: string;
-  latitude: string;
+  id: string;
+  address: string;
+  latitude: number;
   longitude: string;
+  detail?: string;
+  reference?: string;
+  user_id: string;
+  selected: boolean;
 }

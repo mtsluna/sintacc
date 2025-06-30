@@ -21,10 +21,10 @@
           <ng-icon size="20" name="matLocationOnRound"></ng-icon>
           <div class="flex flex-col">
             <div class="font-bold">Enviar a</div>
-            <div class="font-light">Belgrano 815 Dpto 11</div>
+            <div class="font-light">{{ selectedAddress?.address }}</div>
           </div>
         </div>
-        <div class="font-medium">
+        <div class="font-medium" (click)="navigateToProfileAddress()">
           Cambiar
         </div>
       </div>
@@ -33,7 +33,7 @@
           <ng-icon size="20" name="matNotesRound"></ng-icon>
           <div class="flex flex-col">
             <div class="font-bold">Instrucciones</div>
-            <div class="font-light">Porton negro con rejas</div>
+            <div class="font-light">{{ selectedAddress?.reference }}</div>
           </div>
         </div>
         <div class="font-medium">

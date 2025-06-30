@@ -7,6 +7,9 @@ import {catalogResolver} from './pages/catalog/catalog.resolver';
 import {detailResolver} from './pages/detail/detail.resolver';
 import {CheckoutComponent} from './pages/checkout/checkout.component';
 import {checkoutResolver} from './pages/checkout/checkout.resolver';
+import {addressResolver} from './pages/profile/address/address.resolver';
+import {selectedAddressResolver} from './shared/resolvers/selected-address.resolver';
+import {AddressEditComponent} from './pages/profile/address/edit/address-edit.component';
 
 export const routes: Routes = [
   {
@@ -42,11 +45,19 @@ export const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
     resolve: {
-      checkout: checkoutResolver
+      checkout: checkoutResolver,
+      selectedAddress: selectedAddressResolver
     }
   },
   {
     path: 'profile/address',
-    component: AddressComponent
+    component: AddressComponent,
+    resolve: {
+      addresses: addressResolver
+    }
+  },
+  {
+    path: 'profile/address/add',
+    component: AddressEditComponent
   }
 ];
