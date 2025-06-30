@@ -5,9 +5,6 @@ import { SpinnerService } from '../services/spinner/spinner.service';
 
 export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
   const spinnerService = inject(SpinnerService);
-
-  console.log('Spinner Interceptor: Request started', req);
-
   spinnerService.show();
   return next(req).pipe(
     finalize(() => spinnerService.hide())

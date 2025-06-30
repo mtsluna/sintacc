@@ -33,7 +33,7 @@
           <ng-icon size="20" name="matNotesRound"></ng-icon>
           <div class="flex flex-col">
             <div class="font-bold">Instrucciones</div>
-            <div class="font-light">{{ selectedAddress?.reference }}</div>
+            <div class="font-light">{{ selectedAddress?.reference || 'Sin instrucciones extra' }}</div>
           </div>
         </div>
         <div class="font-medium">

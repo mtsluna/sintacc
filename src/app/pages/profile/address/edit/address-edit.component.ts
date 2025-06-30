@@ -5,6 +5,7 @@ import {NextButtonComponent} from '../../../../shared/components/next-button/nex
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AddressService} from '../../../../services/address/address.service';
 import {Address} from '../../../../interfaces/address';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-edit',
@@ -29,6 +30,8 @@ export class AddressEditComponent implements AfterViewInit {
   })
 
   addressService = inject(AddressService);
+  activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
 
   center: google.maps.LatLngLiteral = {
     lat: this.formGroup.get('latitude')?.value === 0
@@ -99,13 +102,16 @@ export class AddressEditComponent implements AfterViewInit {
         this.addressService.postAddress({
           ...this.formGroup.getRawValue(),
           user_id: '79f72af8-4aac-46da-8a49-c2314caebb13',
-          selected: false
+          selected: true
         } as unknown as Address).subscribe({
-          next: (address: Address) => {
+          next: async (address: Address) => {
             console.log('Address saved:', address);
             this.formGroup.reset();
             this.formGroup.setErrors(null);
             this.selectedAddress.set(null);
+
+            const from = this.activatedRoute.snapshot.queryParamMap.get('from') || '/';
+            await this.router.navigateByUrl(from);
           },
           error: (err) => {
             console.error('Error saving address:', err);

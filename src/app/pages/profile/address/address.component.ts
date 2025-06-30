@@ -58,7 +58,7 @@ export class AddressComponent {
   async navigateToAddAddress() {
     await this.router.navigate(['/profile/address/add'], {
       queryParams: {
-        from: this.activatedRoute.snapshot.queryParamMap.get('from') || '/'
+        from: this.router.url
       }
     });
   }

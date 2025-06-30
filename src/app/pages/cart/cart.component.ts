@@ -52,7 +52,7 @@ export class CartComponent implements OnInit {
   async navigateToCheckout() {
     await this.router.navigate(['/checkout'], {
       queryParams: {
-        from: this.activatedRoute.snapshot.queryParamMap.get('from') || '/'
+        from: this.router.url
       }
     });
   }
