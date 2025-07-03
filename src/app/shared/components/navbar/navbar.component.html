@@ -4,7 +4,14 @@
       <span class="text-sm font-semibold inline-block align-bottom">
         Entregar en
         <ng-icon name="matExpandMoreRound"></ng-icon>
-      </span> <span class="text-xs text-gray-500">{{ selectedAddress?.address || 'Aun no tenes una dirección' }}</span>
+      </span>
+      <span class="text-xs text-gray-500">
+        @if (selectedAddress?.address) {
+          {{ selectedAddress?.address }}
+        } @else {
+          <span class="inline-block align-bottom bg-gray-200 rounded w-32 h-4 animate-pulse"></span>
+        }
+      </span>
     </div>
     <div class="flex items-center space-x-4">
       <div class="relative">
@@ -12,7 +19,13 @@
           <ng-icon color="black" size="24" class="h-6 w-6" name="matShoppingCartRound"></ng-icon>
         </button>
         <span
-          class="absolute -top-2 -right-2 bg-black text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{cartCount < 99 ? cartCount : '99'}}</span>
+          class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+          @if (cartCount !== undefined) {
+            {{cartCount < 99 ? cartCount : '99'}}
+          } @else {
+            <span class="inline-block w-5 h-5 bg-gray-300 rounded-full animate-pulse"></span>
+          }
+        </span>
       </div>
     </div>
   </div>

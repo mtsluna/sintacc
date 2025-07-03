@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   search = new FormControl('');
   router = inject(Router);
   route = inject(ActivatedRoute);
-  cartCount: number = 0;
+  cartCount: number | undefined;
   cartService = inject(CartService);
   selectedAddress: Address | undefined;
   addressService = inject(AddressService);
@@ -74,8 +74,6 @@ export class NavbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.cartService.getCart();
-
     (await this.cartService.countProducts()).subscribe({
       next: (count) => {
         this.cartCount = count;

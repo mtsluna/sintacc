@@ -1,9 +1,9 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router, UrlSegment} from '@angular/router';
 import {Category} from '../../interfaces/category';
-import {firstValueFrom} from 'rxjs';
+import {async, firstValueFrom, map, merge} from 'rxjs';
 import {ProductService} from '../../services/product/product.service';
 import {CategoryService} from '../../services/category/category.service';
 
@@ -17,7 +17,7 @@ import {CategoryService} from '../../services/category/category.service';
   standalone: true,
   styleUrl: './catalog.component.scss'
 })
-export class CatalogComponent {
+export class CatalogComponent implements OnInit {
 
   categories: Array<Category> = [];
   router = inject(Router);
@@ -25,42 +25,70 @@ export class CatalogComponent {
   productService = inject(ProductService);
   categoryService = inject(CategoryService);
 
-  constructor() {
+  constructor() {}
 
-    this.route.data.subscribe({
-      next: (data) => {
-        this.categories = data['catalog']?.categories || [];
-      },
-      error: (err) => {
-        console.error('Error loading catalog data:', err);
-      }
-    })
+  async ngOnInit(): Promise<void> {
+    const categoryId = this.route.snapshot.paramMap.get('categoryId');
+
+    this.categories = await firstValueFrom(this.categoryService.getCategories(categoryId || undefined));
 
     this.route.queryParamMap.subscribe({
-      next: async (params) => {
-        const q = params.get('q');
+      next: async params => {
+        const q = this.route.snapshot.queryParamMap.get('q');
 
         if(!q) {
-          const category = this.route?.snapshot?.paramMap?.get('categoryId');
-          this.categories = await firstValueFrom(this.categoryService.getCategories(category as string));
+          if(this.route.snapshot.url.length === 0) {
+            this.categories = await firstValueFrom(this.categoryService.getCategories());
+          }
 
           return;
         }
+
+        this.categories = [];
 
         const products = await firstValueFrom(this.productService.getProducts(q));
 
         this.categories = [
           {
-            name: `Resultados para "${q}"`,
+            name: `Tu busqueda`,
             url: 'search',
             products
           }
         ]
-      },
-      error: (err) => {
-        console.error('Error loading query parameters:', err);
       }
     })
+
+    // if(this.route.snapshot.url.some((u) => u.path.includes('category'))) {
+    //   const categoryId = this.route.snapshot.url[1].path;
+    //
+    //   if(categoryId) {
+    //     this.categories = [];
+    //   }
+    //
+    //   this.categories = await firstValueFrom(this.categoryService.getCategories(categoryId || undefined));
+    //
+    //   return;
+    // } else {
+    //   const q = this.route.snapshot.queryParamMap.get('q');
+    //
+    //   if(!q) {
+    //     return;
+    //   }
+    //
+    //   this.categories = [];
+    //
+    //   const products = await firstValueFrom(this.productService.getProducts(q));
+    //
+    //   this.categories = [
+    //     {
+    //       name: `Tu busqueda`,
+    //       url: 'search',
+    //       products
+    //     }
+    //   ]
+    //
+    //   return;
+    // }
   }
 
   async navigateToCart() {

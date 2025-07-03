@@ -14,10 +14,7 @@ import {AddressEditComponent} from './pages/profile/address/edit/address-edit.co
 export const routes: Routes = [
   {
     path: '',
-    component: CatalogComponent,
-    resolve: {
-      catalog: catalogResolver
-    }
+    component: CatalogComponent
   },
   {
     path: 'home',
@@ -25,10 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'category/:categoryId',
-    component: CatalogComponent,
-    resolve: {
-      catalog: catalogResolver
-    }
+    component: CatalogComponent
   },
   {
     path: 'cart',

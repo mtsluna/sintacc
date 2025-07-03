@@ -3,6 +3,7 @@ import {Product} from '../../../interfaces/product';
 import {CurrencyPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
+import {SpinnerComponent} from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-card',
@@ -18,6 +19,7 @@ import {CartService} from '../../../services/cart/cart.service';
 export class CardComponent {
 
   @Input() product: Product | undefined;
+  loading = false;
 
   router = inject(Router);
   cartService = inject(CartService);
@@ -33,6 +35,8 @@ export class CardComponent {
   }
 
   async addProduct(product: Product | undefined) {
+    this.loading = true;
     await this.cartService.increaseQuantity(false, product);
+    this.loading = false;
   }
 }

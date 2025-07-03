@@ -1,20 +1,36 @@
 <div class="relative p-4 mb-20 flex flex-col gap-8">
-  @for (category of categories; track category) {
-    <div>
-      <div class="flex flex-row items-center justify-between mb-4">
-        <h1 class="text-lg font-medium">{{category.name}}</h1>
-        @if (!isOnCategoryRoute()) {
-          <h3 class="font-light text-sm" (click)="navigateToCategory(category)">Mostrar más</h3>
-        } @else {
-          <h3 class="font-light text-sm" (click)="navigateToCatalog()">Volver al catálogo</h3>
-        }
+  @if (categories?.length) {
+    @for (category of categories; track category) {
+      <div>
+        <div class="flex flex-row items-center justify-between mb-4">
+          <h1 class="text-lg font-medium">{{category.name}}</h1>
+          @if (!isOnCategoryRoute()) {
+            <h3 class="font-light text-sm" (click)="navigateToCategory(category)">Mostrar más</h3>
+          } @else {
+            <h3 class="font-light text-sm" (click)="navigateToCatalog()">Volver al catálogo</h3>
+          }
+        </div>
+        <div class="relative grid grid-cols-2 sm:grid-cols-2 gap-4">
+          @for (product of category.products; track product) {
+            <app-card [product]="product"></app-card>
+          }
+        </div>
       </div>
-      <div class="relative grid grid-cols-2 sm:grid-cols-2 gap-4">
-        @for (product of category.products; track product) {
-          <app-card [product]="product"></app-card>
-        }
+    }
+  } @else {
+    @for (skeletonCategory of [0,1]; track skeletonCategory) {
+      <div>
+        <div class="flex flex-row items-center justify-between mb-4">
+          <div class="h-6 w-32 bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+        <div class="relative grid grid-cols-2 sm:grid-cols-2 gap-4">
+          @for (skeletonProduct of [0,1,2,3]; track skeletonProduct) {
+            <div class="h-[328px] bg-gray-200 rounded animate-pulse"></div>
+          }
+        </div>
       </div>
-    </div>
+    }
   }
   <app-next-button [action]="navigateToCart" class="fixed bottom-4 left-4 w-full" title="Ir al carrito" subtitle="Tu carrito esta listo!"></app-next-button>
 </div>
