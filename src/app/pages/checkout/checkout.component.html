@@ -16,24 +16,32 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-row text-sm justify-between mb-1 items-center">
-        <div class="flex flex-row items-center gap-2">
+      <div class="flex flex-row gap-2 text-sm justify-between mb-1 items-center">
+        <div class="flex flex-row items-center gap-2 flex-1 min-w-0">
           <ng-icon size="20" name="matLocationOnRound"></ng-icon>
-          <div class="flex flex-col">
+          <div class="flex flex-col flex-1 min-w-0">
             <div class="font-bold">Enviar a</div>
-            <div class="font-light">{{ selectedAddress?.address }}</div>
+            @if (isLoading) {
+              <div class="h-[20px] w-40 bg-gray-200 rounded animate-pulse"></div>
+            } @else {
+              <div class="font-light line-clamp-1 w-full truncate">{{ selectedAddress?.address }}</div>
+            }
           </div>
         </div>
-        <div class="font-medium" (click)="navigateToProfileAddress()">
+        <div class="font-medium whitespace-nowrap" (click)="navigateToProfileAddress()">
           Cambiar
         </div>
       </div>
-      <div class="flex flex-row text-sm justify-between mb-1 items-center">
+      <div class="flex flex-row gap-2 text-sm justify-between mb-1 items-center">
         <div class="flex flex-row items-center gap-2">
           <ng-icon size="20" name="matNotesRound"></ng-icon>
           <div class="flex flex-col">
             <div class="font-bold">Instrucciones</div>
-            <div class="font-light">{{ selectedAddress?.reference || 'Sin instrucciones extra' }}</div>
+            @if (isLoading) {
+              <div class="h-[20px] w-32 bg-gray-200 rounded animate-pulse"></div>
+            } @else {
+              <div class="font-light line-clamp-1">{{ selectedAddress?.reference || 'Sin instrucciones extra' }}</div>
+            }
           </div>
         </div>
         <div class="font-medium">
@@ -49,39 +57,64 @@
       <h3 class="text-lg font-semibold mb-2">Resumen</h3>
       <div class="flex text-sm justify-between mb-1">
         <span>Total en productos</span>
-        <span class="font-light">{{ checkout?.products?.total | currency }}</span>
+        @if (isLoading) {
+          <span class="h-4 w-16 bg-gray-200 rounded animate-pulse inline-block"></span>
+        } @else {
+          <span class="font-light">{{ checkout?.products?.total | currency }}</span>
+        }
       </div>
       <div class="flex text-sm justify-between mb-1">
         <span>Total en envío</span>
-        <span class="font-light">{{ checkout?.ship?.total | currency }}</span>
+        @if (isLoading) {
+          <span class="h-4 w-16 bg-gray-200 rounded animate-pulse inline-block"></span>
+        } @else {
+          <span class="font-light">{{ checkout?.ship?.total | currency }}</span>
+        }
       </div>
     </div>
-    @if (checkout?.ship?.discount || checkout?.products?.discount) {
+    <ng-container *ngIf="checkout?.ship?.discount || checkout?.products?.discount">
       <div class="">
         <h3 class="text-base font-semibold mb-2">Descuentos</h3>
         @if (checkout?.products?.discount) {
           <div class="flex text-sm justify-between mb-1">
             <span>Productos</span>
-            <span class="font-light">{{ ((checkout?.products?.discount || 0) * - 1) | currency }}</span>
+            @if (isLoading) {
+              <span class="h-4 w-16 bg-gray-200 rounded animate-pulse inline-block"></span>
+            } @else {
+              <span class="font-light">{{ ((checkout?.products?.discount || 0) * - 1) | currency }}</span>
+            }
           </div>
         }
         @if (checkout?.ship?.discount) {
           <div class="flex text-sm justify-between mb-1">
             <span>Envio</span>
-            <span class="font-light">{{ ((checkout?.ship?.discount || 0) * - 1) | currency }}</span>
+            @if (isLoading) {
+              <span class="h-4 w-16 bg-gray-200 rounded animate-pulse inline-block"></span>
+            } @else {
+              <span class="font-light">{{ ((checkout?.ship?.discount || 0) * - 1) | currency }}</span>
+            }
           </div>
         }
       </div>
-    }
+    </ng-container>
     <div class="flex justify-between text-lg font-bold">
       <span>Total</span>
-      <span>{{ checkout?.total | currency }}</span>
+      @if (isLoading) {
+        <span class="h-6 w-20 bg-gray-200 rounded animate-pulse"></span>
+      } @else {
+        <span>{{ checkout?.total | currency }}</span>
+      }
     </div>
   </div>
 
   <app-back-button></app-back-button>
 
-  <app-next-button class="fixed bottom-4 left-4 w-full" [action]="navigateToMercadoPago(checkout?.payment_link)" title="Ir a Mercadopago"
-                   subtitle="Estas a punto de terminar!"></app-next-button>
+  @if (isLoading) {
+    <div class="fixed bottom-4 left-4 right-4 w-auto">
+      <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
+    </div>
+  } @else {
+    <app-next-button class="fixed bottom-4 left-4 w-full" [action]="navigateToMercadoPago(checkout?.payment_link)" title="Ir a Mercadopago" subtitle="Estas a punto de terminar!"></app-next-button>
+  }
 
 </div>

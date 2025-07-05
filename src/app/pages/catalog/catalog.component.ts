@@ -57,38 +57,6 @@ export class CatalogComponent implements OnInit {
         ]
       }
     })
-
-    // if(this.route.snapshot.url.some((u) => u.path.includes('category'))) {
-    //   const categoryId = this.route.snapshot.url[1].path;
-    //
-    //   if(categoryId) {
-    //     this.categories = [];
-    //   }
-    //
-    //   this.categories = await firstValueFrom(this.categoryService.getCategories(categoryId || undefined));
-    //
-    //   return;
-    // } else {
-    //   const q = this.route.snapshot.queryParamMap.get('q');
-    //
-    //   if(!q) {
-    //     return;
-    //   }
-    //
-    //   this.categories = [];
-    //
-    //   const products = await firstValueFrom(this.productService.getProducts(q));
-    //
-    //   this.categories = [
-    //     {
-    //       name: `Tu busqueda`,
-    //       url: 'search',
-    //       products
-    //     }
-    //   ]
-    //
-    //   return;
-    // }
   }
 
   async navigateToCart() {

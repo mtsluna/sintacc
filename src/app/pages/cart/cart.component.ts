@@ -23,15 +23,16 @@ export class CartComponent implements OnInit {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
 
-  products: Array<Product>
+  products: Array<Product>;
+  loadingProducts: boolean = true;
 
   constructor() {
     this.products = [];
   }
 
   async ngOnInit() {
+    this.loadingProducts = true;
     const cart = await this.cartService.getCart();
-
     this.products = cart.products.map((product) => ({
       id: product.product_id,
       name: product.name,
@@ -42,6 +43,7 @@ export class CartComponent implements OnInit {
       quantity: product.quantity,
       description: ''
     }));
+    this.loadingProducts = false;
   }
 
   async navigateToFrom() {

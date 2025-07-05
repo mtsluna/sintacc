@@ -37,11 +37,7 @@ export const routes: Routes = [
   },
   {
     path: 'checkout',
-    component: CheckoutComponent,
-    resolve: {
-      checkout: checkoutResolver,
-      selectedAddress: selectedAddressResolver
-    }
+    component: CheckoutComponent
   },
   {
     path: 'profile/address',
