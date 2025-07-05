@@ -41,10 +41,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile/address',
-    component: AddressComponent,
-    resolve: {
-      addresses: addressResolver
-    }
+    component: AddressComponent
   },
   {
     path: 'profile/address/add',

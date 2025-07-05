@@ -16,10 +16,14 @@
 
     <!-- Google Map below address field -->
     @if (isGoogleReady()) {
-      <div class="mb-4" >
+      <div class="mb-4 min-h-[250px]">
         <google-map [center]="center" [height]="'250px'" [width]="'100%'" [zoom]="15" >
           <map-marker [position]="center"></map-marker>
         </google-map>
+      </div>
+    } @else {
+      <div class="mb-4 min-h-[250px]">
+        <div class="w-full h-[250px] bg-gray-200 rounded animate-pulse"></div>
       </div>
     }
 
