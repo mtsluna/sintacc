@@ -132,7 +132,7 @@ export class CartService {
       const cart = await this.getCart();
 
       this.count.next(cart.products.map((p) => p.quantity)
-        .reduce((a, b) => a + b))
+        .reduce((a, b) => a + b, 0))
     }
 
     return this.count;

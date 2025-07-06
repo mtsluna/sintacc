@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   search = new FormControl('');
   router = inject(Router);
   route = inject(ActivatedRoute);
-  cartCount: number | undefined;
+  cartCount: number = 0;
   cartService = inject(CartService);
   selectedAddress: Address | undefined;
   addressService = inject(AddressService);
