@@ -7,4 +7,5 @@ export interface Product {
   discount: number;
   image?: string;
   quantity?: number;
+  category_id?: string;
 }

@@ -19,4 +19,8 @@ export class ProductService {
   getProducts(q: string) {
     return this.httpClient.get<Array<Product>>(`${API_URL}/api/products?q=${q}`);
   }
+
+  getProductsByCategoryVariation(productId: string) {
+    return this.httpClient.get<Array<Product>>(`${API_URL}/api/products/by-category/variation?productId=${productId}`);
+  }
 }

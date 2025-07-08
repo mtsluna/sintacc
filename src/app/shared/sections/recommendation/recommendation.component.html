@@ -1,9 +1,17 @@
 <div class="p-4">
-  <h2 class="text-lg font-medium mb-4">{{ title }}</h2>
-  <div class="relative mb-20 grid grid-cols-2 sm:grid-cols-2 gap-4">
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-  </div>
+  @if (products === undefined) {
+    <div class="h-6 w-32 bg-gray-200 rounded mb-4 animate-pulse"></div>
+    <div class="relative mb-20 grid grid-cols-2 sm:grid-cols-2 gap-4">
+      @for (skeleton of [0,1,2,3]; track skeleton) {
+        <div class="h-[328px] bg-gray-200 rounded animate-pulse"></div>
+      }
+    </div>
+  } @else if (products.length > 0) {
+    <h2 class="text-lg font-medium mb-4">{{ title }}</h2>
+    <div class="relative mb-20 grid grid-cols-2 sm:grid-cols-2 gap-4">
+      @for (product of products; track product) {
+        <app-card [product]="product"></app-card>
+      }
+    </div>
+  }
 </div>

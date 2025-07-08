@@ -2,16 +2,30 @@
   <app-back-button></app-back-button>
 
   <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
-    <img style="position: relative; height: 350px" ngSrc="{{product?.image}}" alt="Detalle" class="w-full object-cover" fill>
-    <div class="p-4">
-      <h1 class="text-2xl font-bold mb-2">{{product?.name}}</h1>
-      <p class="text-gray-500 text-sm mb-4">{{product?.description}}</p>
-      <div class="flex flex-col justify-between">
-        <span class="text-sm line-through text-gray-400">{{ (product?.price || 0) | currency }}</span>
-        <span class="text-lg font-semibold text-gray-800">{{ (product?.price || 0) - ((product?.price || 0) * (product?.discount || 0) / 100) | currency }}</span>
+    @if (product === undefined) {
+      <div class="w-full h-[350px] bg-gray-200 animate-pulse"></div>
+      <div class="p-4">
+        <div class="h-7 w-2/3 bg-gray-200 rounded mb-4 animate-pulse"></div>
+        <div class="h-4 w-full bg-gray-100 rounded mb-4 animate-pulse"></div>
+        <div class="h-6 w-1/3 bg-gray-200 rounded mb-2 animate-pulse"></div>
+        <div class="h-8 w-1/2 bg-gray-300 rounded animate-pulse"></div>
       </div>
-    </div>
+    } @else {
+      @if (product?.image) {
+        <img style="position: relative; height: 350px" ngSrc="{{product?.image}}" alt="Detalle" class="w-full object-cover" fill>
+      } @else {
+        <div class="w-full h-[350px] bg-gray-100"></div>
+      }
+      <div class="p-4">
+        <h1 class="text-2xl font-bold mb-2">{{product?.name}}</h1>
+        <p class="text-gray-500 text-sm mb-4">{{product?.description}}</p>
+        <div class="flex flex-col justify-between">
+          <span class="text-sm line-through text-gray-400">{{ (product?.price || 0) | currency }}</span>
+          <span class="text-lg font-semibold text-gray-800">{{ (product?.price || 0) - ((product?.price || 0) * (product?.discount || 0) / 100) | currency }}</span>
+        </div>
+      </div>
+    }
   </div>
-  <app-recommendation title="Artículos similares"></app-recommendation>
+  <app-recommendation [category]="product?.category_id" title="Artículos similares"></app-recommendation>
   <app-next-button class="fixed bottom-4 left-4 w-full" title="Agregar al carrito" subtitle="Ya casi es tuyo!"></app-next-button>
 </div>
