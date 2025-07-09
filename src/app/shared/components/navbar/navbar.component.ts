@@ -1,6 +1,6 @@
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {NgIcon, provideIcons} from '@ng-icons/core';
-import { matExpandMoreRound, matShoppingCartRound, matSearchRound, matCloseRound } from '@ng-icons/material-icons/round';
+import { matExpandMoreRound, matShoppingCartRound, matSearchRound, matCloseRound, matPersonRound } from '@ng-icons/material-icons/round';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -8,19 +8,23 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {debounceTime, distinctUntilChanged} from 'rxjs';
 import {Address} from '../../../interfaces/address';
 import {AddressService} from '../../../services/address/address.service';
+import { FirebaseAuthService } from '../../../services/firebase-auth.service';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
   selector: 'app-navbar',
   imports: [
     NgIcon,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoginModalComponent
   ],
   providers: [
     provideIcons({
       matExpandMoreRound,
       matShoppingCartRound,
       matSearchRound,
-      matCloseRound
+      matCloseRound,
+      matPersonRound
     })
   ],
   templateUrl: './navbar.component.html',
@@ -33,10 +37,14 @@ export class NavbarComponent implements OnInit {
   search = new FormControl('');
   router = inject(Router);
   route = inject(ActivatedRoute);
-  cartCount: number = 0;
+  cartCount: number | undefined = undefined;
   cartService = inject(CartService);
   selectedAddress: Address | undefined;
   addressService = inject(AddressService);
+  firebaseAuth = inject(FirebaseAuthService);
+  userPhotoURL: string | null = null;
+  showLoginModal = false;
+  showProfileMenu = false;
 
   constructor() {
     this.search.valueChanges.pipe(
@@ -78,7 +86,19 @@ export class NavbarComponent implements OnInit {
       next: (count) => {
         this.cartCount = count;
       }
-    })
+    });
+    this.setUserPhoto();
+  }
+
+  setUserPhoto() {
+    const trySetPhoto = () => {
+      const user = this.firebaseAuth.currentUser;
+      this.userPhotoURL = user?.photoURL || null;
+      if (!user) {
+        setTimeout(trySetPhoto, 200);
+      }
+    };
+    trySetPhoto();
   }
 
   async navigateToCart() {
@@ -99,6 +119,33 @@ export class NavbarComponent implements OnInit {
 
   async countProducts() {
 
+  }
+
+  async loginWithGoogle() {
+    await this.firebaseAuth.signInWithGoogle();
+    this.setUserPhoto();
+    this.closeLoginModal();
+  }
+
+  async loginWithApple() {
+    await this.firebaseAuth.signInWithApple();
+    this.setUserPhoto();
+    this.closeLoginModal();
+  }
+
+  openLoginModal() {
+    this.showLoginModal = true;
+  }
+  closeLoginModal() {
+    this.showLoginModal = false;
+  }
+  toggleProfileMenu() {
+    this.showProfileMenu = !this.showProfileMenu;
+  }
+  async logout() {
+    await this.firebaseAuth.signOut();
+    this.userPhotoURL = null;
+    this.showProfileMenu = false;
   }
 
 }
