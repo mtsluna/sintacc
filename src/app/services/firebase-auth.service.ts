@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, UserCredential } from 'firebase/auth';
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, UserCredential, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCbMbRabJtR-6thij8RMlYUyK6hS6a-XmQ',
@@ -12,7 +12,7 @@ const firebaseConfig = {
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
   private app = initializeApp(firebaseConfig);
-  private auth = getAuth(this.app);
+  public auth = getAuth(this.app);
 
   async signInWithGoogle(): Promise<UserCredential> {
     const provider = new GoogleAuthProvider();
@@ -27,6 +27,17 @@ export class FirebaseAuthService {
     } else {
       return signInWithPopup(this.auth, provider);
     }
+  }
+
+  async signInWithPhone(phoneNumber: string, appVerifier: any): Promise<string> {
+    const provider = new PhoneAuthProvider(this.auth);
+    const verificationId = await provider.verifyPhoneNumber(phoneNumber, appVerifier);
+    return verificationId;
+  }
+
+  async signInWithPhoneCode(verificationId: string, smsCode: string): Promise<UserCredential> {
+    const credential = PhoneAuthProvider.credential(verificationId, smsCode);
+    return signInWithCredential(this.auth, credential);
   }
 
   get currentUser() {
