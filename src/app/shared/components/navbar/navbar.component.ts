@@ -10,6 +10,7 @@ import {Address} from '../../../interfaces/address';
 import {AddressService} from '../../../services/address/address.service';
 import { FirebaseAuthService } from '../../../services/firebase-auth.service';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -87,18 +88,16 @@ export class NavbarComponent implements OnInit {
         this.cartCount = count;
       }
     });
-    this.setUserPhoto();
+    this.listenToAuthState();
+    return Promise.resolve();
   }
 
-  setUserPhoto() {
-    const trySetPhoto = () => {
-      const user = this.firebaseAuth.currentUser;
+  listenToAuthState() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user: User | null) => {
+      console.log(user)
       this.userPhotoURL = user?.photoURL || null;
-      if (!user) {
-        setTimeout(trySetPhoto, 200);
-      }
-    };
-    trySetPhoto();
+    });
   }
 
   async navigateToCart() {
@@ -123,13 +122,11 @@ export class NavbarComponent implements OnInit {
 
   async loginWithGoogle() {
     await this.firebaseAuth.signInWithGoogle();
-    this.setUserPhoto();
     this.closeLoginModal();
   }
 
   async loginWithApple() {
     await this.firebaseAuth.signInWithApple();
-    this.setUserPhoto();
     this.closeLoginModal();
   }
 

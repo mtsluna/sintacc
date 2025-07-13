@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, OAuthProvider, UserCredential } from 'firebase/auth';
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, UserCredential } from 'firebase/auth';
 
 const firebaseConfig = {
-  // TODO: Replace with your Firebase config
   apiKey: 'AIzaSyCbMbRabJtR-6thij8RMlYUyK6hS6a-XmQ',
   authDomain: 'barsac-app-793fe.firebaseapp.com',
   projectId: 'barsac-app-793fe',
@@ -20,9 +19,14 @@ export class FirebaseAuthService {
     return signInWithPopup(this.auth, provider);
   }
 
-  async signInWithApple(): Promise<UserCredential> {
+  async signInWithApple(): Promise<UserCredential | null> {
     const provider = new OAuthProvider('apple.com');
-    return signInWithPopup(this.auth, provider);
+    if (/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
+      await signInWithRedirect(this.auth, provider);
+      return null;
+    } else {
+      return signInWithPopup(this.auth, provider);
+    }
   }
 
   get currentUser() {
@@ -33,4 +37,3 @@ export class FirebaseAuthService {
     return this.auth.signOut();
   }
 }
-
