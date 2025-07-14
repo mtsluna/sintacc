@@ -30,6 +30,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
                 (input)="onDigitInput($event, input)"
                 (keydown)="onDigitKeydown($event, input)"
                 [autofocus]="input === 0"
+                (paste)="onPaste($event)"
               />
             }
           </div>
@@ -142,6 +143,21 @@ export class LoginModalComponent implements OnInit {
     if (event.key === 'Backspace' && !event.target.value && index > 0) {
       const prevInput = event.target.parentElement.querySelectorAll('input')[index - 1];
       if (prevInput) prevInput.focus();
+    }
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const pasteData = event.clipboardData?.getData('text') || '';
+    const digits = pasteData.replace(/\D/g, '').slice(0, 6).split('');
+    if (digits.length) {
+      this.smsCode = digits.join('');
+      const inputs = (event.target as HTMLInputElement).parentElement?.querySelectorAll('input');
+      digits.forEach((digit, idx) => {
+        if (inputs && inputs[idx]) {
+          (inputs[idx] as HTMLInputElement).value = digit;
+        }
+      });
+      event.preventDefault();
     }
   }
 }
