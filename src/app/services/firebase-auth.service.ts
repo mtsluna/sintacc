@@ -1,6 +1,15 @@
-import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, UserCredential, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import {Injectable} from '@angular/core';
+import {initializeApp} from 'firebase/app';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  OAuthProvider,
+  PhoneAuthProvider,
+  signInWithCredential,
+  signInWithPopup,
+  signInWithRedirect,
+  UserCredential
+} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCbMbRabJtR-6thij8RMlYUyK6hS6a-XmQ',
@@ -31,8 +40,7 @@ export class FirebaseAuthService {
 
   async signInWithPhone(phoneNumber: string, appVerifier: any): Promise<string> {
     const provider = new PhoneAuthProvider(this.auth);
-    const verificationId = await provider.verifyPhoneNumber(phoneNumber, appVerifier);
-    return verificationId;
+    return await provider.verifyPhoneNumber(phoneNumber, appVerifier);
   }
 
   async signInWithPhoneCode(verificationId: string, smsCode: string): Promise<UserCredential> {

@@ -1,3 +1,12 @@
 @import "tailwindcss";
 
 /* You can add global styles to this file, and also import other style files */
+.grecaptcha-badge {
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: static !important;
+  bottom: auto !important;
+  right: auto !important;
+  box-shadow: none !important;
+  margin-top: 1rem; /* Optional spacing */
+}

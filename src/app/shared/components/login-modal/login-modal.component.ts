@@ -3,25 +3,41 @@ import { FormsModule } from '@angular/forms';
 import { inject } from '@angular/core';
 import { FirebaseAuthService } from '../../../services/firebase-auth.service';
 import { RecaptchaVerifier } from 'firebase/auth';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-login-modal',
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
       <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-xs relative">
-        <button (click)="close.emit()" class="absolute top-2 right-2 text-gray-400 hover:text-black">&times;</button>
+        <button (click)="close.emit()" class="absolute top-4 right-4 text-gray-400 hover:text-black">&times;</button>
         <h2 class="text-lg font-bold mb-6 text-center">Iniciar sesión</h2>
-        <div class="my-4 border-t"></div>
+        <div class="my-4"></div>
         @if (step === 'phone') {
           <input type="tel" [(ngModel)]="phoneNumber" placeholder="Teléfono"
-                 class="w-full px-3 py-2 border rounded mb-2"/>
+                 mask="00 0 000 000-0000" class="w-full outline-black px-3 py-2 border rounded mb-2" prefix="+" [showMaskTyped]="true" />
+          <label class="block text-xs text-center text-gray-500 mb-1">Ingresa tu número de telefono para recibir el código de verificación. Ejemplo: +54 9 261 510-9127.</label>
           <div id="recaptcha-container" class="mb-2"></div>
-          <button (click)="sendCode()" class="w-full px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 text-sm">Continuar</button>
+          <div class="my-4"></div>
+          <button (click)="sendCode()" class="w-full px-4 py-2 rounded bg-black text-white hover:bg-black text-sm">Continuar</button>
         }
         @else {
-          <input type="text" [(ngModel)]="smsCode" placeholder="Código SMS"
-                 class="w-full px-3 py-2 border rounded mb-2"/>
-          <button (click)="confirmCode()" class="w-full px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 text-sm">Continuar</button>
+          <div class="flex gap-2 justify-center mb-2">
+            @for (input of [0,1,2,3,4,5]; track input) {
+              <input maxlength="1" type="text"
+                class="w-9 h-9 text-center border rounded text-lg font-mono"
+                [value]="smsCode[input] || ''"
+                (input)="onDigitInput($event, input)"
+                (keydown)="onDigitKeydown($event, input)"
+                [autofocus]="input === 0"
+              />
+            }
+          </div>
+          <label class="block text-xs text-center text-gray-500 mb-1">Ingresa el código que recibiste por SMS. ¿Necesitas cambiar el número de teléfono?<div class="text-xs text-gray-500 mb-2 cursor-pointer underline" (click)="step = 'phone'">
+            Haz clic aquí
+          </div></label>
+          <div class="my-4"></div>
+          <button (click)="confirmCode()" class="w-full px-4 py-2 rounded bg-black text-white hover:bg-black text-sm">Continuar</button>
         }
         @if (error) {
           <div class="text-red-500 text-xs mt-2">{{ error }}</div>
@@ -35,7 +51,11 @@ import { RecaptchaVerifier } from 'firebase/auth';
   `,
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgxMaskDirective
+  ],
+  providers: [
+    provideNgxMask()
   ],
   styleUrls: []
 })
@@ -74,7 +94,7 @@ export class LoginModalComponent implements OnInit {
       return;
     }
     this.error = '';
-    this.firebaseAuth.signInWithPhone(this.phoneNumber, this.appVerifier)
+    this.firebaseAuth.signInWithPhone(`+${this.phoneNumber}`, this.appVerifier)
       .then((verificationId: string) => {
         this.verificationId = verificationId;
         setTimeout(() => {
@@ -103,6 +123,25 @@ export class LoginModalComponent implements OnInit {
       }
     } catch (err: any) {
       this.error = err.message || 'Error al verificar el código.';
+    }
+  }
+
+  onDigitInput(event: any, index: number) {
+    const value = event.target.value.replace(/[^0-9]/g, '');
+    let codeArr = this.smsCode.split('');
+    codeArr[index] = value;
+    this.smsCode = codeArr.join('').slice(0, 6);
+    // Move to next input if a digit is entered
+    if (value && index < 5) {
+      const nextInput = event.target.parentElement.querySelectorAll('input')[index + 1];
+      if (nextInput) nextInput.focus();
+    }
+  }
+
+  onDigitKeydown(event: any, index: number) {
+    if (event.key === 'Backspace' && !event.target.value && index > 0) {
+      const prevInput = event.target.parentElement.querySelectorAll('input')[index - 1];
+      if (prevInput) prevInput.focus();
     }
   }
 }
