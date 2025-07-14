@@ -4,9 +4,19 @@
 .grecaptcha-badge {
   visibility: visible !important;
   opacity: 1 !important;
-  position: static !important;
-  bottom: auto !important;
-  right: auto !important;
+  position: absolute !important;
+  bottom: 70000rem !important;
+  right: 70000rem !important;
   box-shadow: none !important;
   margin-top: 1rem; /* Optional spacing */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

@@ -25,7 +25,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
           <div class="flex gap-2 justify-center mb-2">
             @for (input of [0,1,2,3,4,5]; track input) {
               <input maxlength="1" type="number"
-                class="w-9 h-9 text-center border rounded text-lg font-mono"
+                class="w-9 h-9 text-center border rounded text-lg font-mono outline-black"
                 [value]="smsCode[input] || ''"
                 (input)="onDigitInput($event, input)"
                 (keydown)="onDigitKeydown($event, input)"
