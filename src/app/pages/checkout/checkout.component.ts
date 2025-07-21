@@ -5,7 +5,7 @@ import {NgIcon, provideIcons} from '@ng-icons/core';
 import {matLocationOnRound, matMotorcycleRound, matNotesRound} from '@ng-icons/material-icons/round';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Checkout} from '../../interfaces/checkout';
-import {CurrencyPipe} from '@angular/common';
+import {CurrencyPipe, JsonPipe} from '@angular/common';
 import {Address} from '../../interfaces/address';
 import {CheckoutService} from '../../services/checkout/checkout.service';
 import {CartService} from '../../services/cart/cart.service';
@@ -19,7 +19,8 @@ import {firstValueFrom} from 'rxjs';
     BackButtonComponent,
     NextButtonComponent,
     NgIcon,
-    CurrencyPipe
+    CurrencyPipe,
+    JsonPipe
   ],
   providers: [
     provideIcons({
