@@ -14,9 +14,11 @@
       </span>
     </div>
     <div class="flex items-center space-x-4">
-      @if (userPhotoURL) {
+      @if (isLoggedIn) {
         <div class="relative">
-          <img [src]="userPhotoURL" alt="Foto de perfil" class="w-8 h-8 rounded-full object-cover border border-gray-300 cursor-pointer" (click)="toggleProfileMenu()" />
+          <button (click)="toggleProfileMenu()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center border border-gray-300">
+            <ng-icon name="matPersonRound" size="20" class="text-gray-500"></ng-icon>
+          </button>
           @if (showProfileMenu) {
             <div class="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow-lg z-50">
               <button (click)="logout()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar sesión</button>

@@ -97,11 +97,14 @@ export class AddressEditComponent implements AfterViewInit {
   }
 
   save() {
+
+    const userId = localStorage.getItem('userId');
+
     return this.isAddressValid() && this.formGroup.valid
       ? () => {
         this.addressService.postAddress({
           ...this.formGroup.getRawValue(),
-          user_id: '79f72af8-4aac-46da-8a49-c2314caebb13',
+          user_id: userId,
           selected: true
         } as unknown as Address).subscribe({
           next: async (address: Address) => {

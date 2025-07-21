@@ -48,7 +48,8 @@ export class AddressComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loadingAddresses = true;
-    this.addresses = await firstValueFrom(this.addressService.getAddresses('79f72af8-4aac-46da-8a49-c2314caebb13'));
+    const userId = localStorage.getItem('userId');
+    this.addresses = userId ? await firstValueFrom(this.addressService.getAddresses(userId)) : [];
     this.loadingAddresses = false;
   }
 

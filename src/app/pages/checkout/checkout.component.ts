@@ -51,20 +51,27 @@ export class CheckoutComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.isLoading = true;
     const { id: cartId } = await this.cartService.getCart();
-    const [address, checkout] = await Promise.all([
-      firstValueFrom(this.addressService.getSelectedAddress('79f72af8-4aac-46da-8a49-c2314caebb13')),
+
+    const userId = localStorage.getItem('userId') || 'empty';
+
+    const [addressResult, checkoutResult] = await Promise.allSettled([
+      firstValueFrom(this.addressService.getSelectedAddress(userId)),
       firstValueFrom(this.checkoutService.postCheckout({
         cartId,
         addressId: '95bc4a6c-9c04-41d8-b729-f06e0ccd81bb',
-        userId: '79f72af8-4aac-46da-8a49-c2314caebb13'
+        userId
       }))
     ]);
-    this.selectedAddress = address;
-    this.checkout = checkout;
+    this.selectedAddress = addressResult.status === 'fulfilled' ? addressResult.value : undefined;
+    this.checkout = checkoutResult.status === 'fulfilled' ? checkoutResult.value : undefined;
     this.isLoading = false;
   }
 
   navigateToMercadoPago(initPoint: string | undefined) {
+    if(!this.selectedAddress || !this.checkout) {
+      return () => {};
+    }
+
     return () => {
       window.location.href = initPoint || '';
     }

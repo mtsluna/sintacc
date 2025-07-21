@@ -4,6 +4,8 @@ import { inject } from '@angular/core';
 import { FirebaseAuthService } from '../../../services/firebase-auth.service';
 import { RecaptchaVerifier } from 'firebase/auth';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { UserService } from '../../../services/user.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-login-modal',
@@ -70,6 +72,7 @@ export class LoginModalComponent implements OnInit {
   error: string = '';
   appVerifier: any;
   firebaseAuth = inject(FirebaseAuthService);
+  userService = inject(UserService);
   verificationId: string = '';
 
   ngOnInit() {
@@ -120,6 +123,13 @@ export class LoginModalComponent implements OnInit {
     try {
       const result = await this.firebaseAuth.signInWithPhoneCode(this.verificationId, this.smsCode);
       if (result) {
+        // Get ID token
+        const idToken = await this.firebaseAuth.getIdToken();
+        if (idToken) {
+          const { id } = await firstValueFrom(this.userService.registerUser(idToken));
+
+          localStorage.setItem('userId', id);
+        }
         this.close.emit();
       }
     } catch (err: any) {

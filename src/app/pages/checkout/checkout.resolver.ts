@@ -11,10 +11,11 @@ export const checkoutResolver: ResolveFn<Checkout> = async (route, state) => {
   const cartService = inject(CartService);
 
   const { id: cartId } = await cartService.getCart();
+  const userId = localStorage.getItem('userId') || 'empty';
 
   return await firstValueFrom(checkoutService.postCheckout({
     cartId,
     addressId: '95bc4a6c-9c04-41d8-b729-f06e0ccd81bb',
-    userId: '79f72af8-4aac-46da-8a49-c2314caebb13'
+    userId: userId
   }))
 };

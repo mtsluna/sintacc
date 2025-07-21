@@ -46,6 +46,7 @@ export class NavbarComponent implements OnInit {
   userPhotoURL: string | null = null;
   showLoginModal = false;
   showProfileMenu = false;
+  isLoggedIn: boolean = false;
 
   constructor() {
     this.search.valueChanges.pipe(
@@ -75,11 +76,24 @@ export class NavbarComponent implements OnInit {
       }
     })
 
-    this.addressService.getSelectedAddress('79f72af8-4aac-46da-8a49-c2314caebb13').subscribe({
-      next: (value) => {
-        this.selectedAddress = value;
-      }
-    })
+    const userId = localStorage.getItem('userId');
+
+    if(userId) {
+      this.addressService.getSelectedAddress(userId).subscribe({
+        next: (value) => {
+          this.selectedAddress = value;
+        },
+        error: (err) => {
+          this.selectedAddress = {
+            address: 'Aún no tenes una dirección cargada',
+          } as unknown as Address;
+        }
+      })
+    } else {
+      this.selectedAddress = {
+        address: 'Inicia sesión para ver tu dirección',
+      } as unknown as Address;
+    }
   }
 
   async ngOnInit(): Promise<void> {
@@ -95,8 +109,8 @@ export class NavbarComponent implements OnInit {
   listenToAuthState() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user: User | null) => {
-      console.log(user)
       this.userPhotoURL = user?.photoURL || null;
+      this.isLoggedIn = !!user;
     });
   }
 
@@ -141,6 +155,7 @@ export class NavbarComponent implements OnInit {
   }
   async logout() {
     await this.firebaseAuth.signOut();
+    localStorage.removeItem('userId');
     this.userPhotoURL = null;
     this.showProfileMenu = false;
   }

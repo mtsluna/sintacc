@@ -1,6 +1,6 @@
 <div class="relative p-4 mb-20 flex flex-col gap-8">
   @if (categories?.length) {
-    @for (category of categories; track category) {
+    @for (category of categories; track category.name) {
       <div>
         <div class="flex flex-row items-center justify-between mb-4">
           <h1 class="text-lg font-medium">{{category.name}}</h1>
@@ -11,7 +11,7 @@
           }
         </div>
         <div class="relative grid grid-cols-2 sm:grid-cols-2 gap-4">
-          @for (product of category.products; track product) {
+          @for (product of category.products; track product.id) {
             <app-card [product]="product"></app-card>
           }
         </div>

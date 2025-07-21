@@ -22,7 +22,9 @@ export class CartService {
     let cart = localStorage.getItem('cart');
 
     if (cart == null) {
-      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+      const userId = localStorage.getItem('userId') || 'empty';
+
+      cart = (await firstValueFrom(this.createCart(userId))).id;
 
       localStorage.setItem('cart', cart);
     }
@@ -48,7 +50,9 @@ export class CartService {
     let cart = localStorage.getItem('cart');
 
     if (cart == null) {
-      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+      const userId = localStorage.getItem('userId') || 'empty';
+
+      cart = (await firstValueFrom(this.createCart(userId))).id;
 
       localStorage.setItem('cart', cart);
     }
@@ -74,7 +78,9 @@ export class CartService {
     let cart = localStorage.getItem('cart');
 
     if (cart == null) {
-      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+      const userId = localStorage.getItem('userId') || 'empty';
+
+      cart = (await firstValueFrom(this.createCart(userId))).id;
 
       localStorage.setItem('cart', cart);
     }
@@ -105,7 +111,9 @@ export class CartService {
     let cart = localStorage.getItem('cart');
 
     if (cart == null) {
-      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+      const userId = localStorage.getItem('userId') || 'empty';
+
+      cart = (await firstValueFrom(this.createCart(userId))).id;
 
       localStorage.setItem('cart', cart);
     }
@@ -146,7 +154,9 @@ export class CartService {
     let cart = localStorage.getItem('cart');
 
     if (cart == null) {
-      cart = (await firstValueFrom(this.createCart('79f72af8-4aac-46da-8a49-c2314caebb13'))).id;
+      const userId = localStorage.getItem('userId') || 'empty';
+
+      cart = (await firstValueFrom(this.createCart(userId))).id;
 
       localStorage.setItem('cart', cart);
     }

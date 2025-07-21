@@ -55,4 +55,9 @@ export class FirebaseAuthService {
   async signOut() {
     return this.auth.signOut();
   }
+
+  async getIdToken(): Promise<string | null> {
+    if (!this.auth.currentUser) return null;
+    return await this.auth.currentUser.getIdToken();
+  }
 }
