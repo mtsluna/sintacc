@@ -1,6 +1,6 @@
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {NgIcon, provideIcons} from '@ng-icons/core';
-import { matExpandMoreRound, matShoppingCartRound, matSearchRound, matCloseRound, matPersonRound } from '@ng-icons/material-icons/round';
+import { matExpandMoreRound, matShoppingCartRound, matSearchRound, matCloseRound, matPersonRound, matLoginRound } from '@ng-icons/material-icons/round';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -25,7 +25,8 @@ import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
       matShoppingCartRound,
       matSearchRound,
       matCloseRound,
-      matPersonRound
+      matPersonRound,
+      matLoginRound
     })
   ],
   templateUrl: './navbar.component.html',
