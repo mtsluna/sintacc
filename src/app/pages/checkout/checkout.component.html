@@ -49,6 +49,11 @@
   </div>
 
   @if (!isLoading && (!selectedAddress || !checkout)) {
+
+    {{ isLoading }}
+    {{ selectedAddress }}
+    {{ checkout }}
+
     <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">Agrega una dirección para poder ver el precio de envio, de los productos y el total.</span>
   }
 

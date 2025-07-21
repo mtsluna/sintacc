@@ -50,6 +50,7 @@ export class CatalogComponent implements OnInit {
 
         this.categories = [
           {
+            id: 'abc1234',
             name: `Tu busqueda`,
             url: 'search',
             products

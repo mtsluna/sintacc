@@ -5,6 +5,7 @@ import {DetailComponent} from './pages/detail/detail.component';
 import {AddressComponent} from './pages/profile/address/address.component';
 import {CheckoutComponent} from './pages/checkout/checkout.component';
 import {AddressEditComponent} from './pages/profile/address/edit/address-edit.component';
+import { CategoriesComponent } from './pages/admin/categories/categories.component';
 
 export const routes: Routes = [
   {
@@ -38,5 +39,9 @@ export const routes: Routes = [
   {
     path: 'profile/address/add',
     component: AddressEditComponent
+  },
+  {
+    path: 'admin/categories',
+    component: CategoriesComponent
   }
 ];
