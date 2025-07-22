@@ -23,4 +23,11 @@ export class ProductService {
   getProductsByCategoryVariation(productId: string) {
     return this.httpClient.get<Array<Product>>(`${API_URL}/api/products/by-category/variation?productId=${productId}`);
   }
+
+  uploadProductImage(productId: string, image: File) {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('productId', productId);
+    return this.httpClient.post(`${API_URL}/api/products/upload-image`, formData);
+  }
 }

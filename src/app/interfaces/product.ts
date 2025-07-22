@@ -4,6 +4,8 @@ export interface Product {
   description: string;
   price: number;
   original_price?: number;
+  sku?: string;
+  uploading?: boolean;
   discount: number;
   image?: string;
   quantity?: number;

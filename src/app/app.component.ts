@@ -15,7 +15,7 @@ import { FirebaseAuthService } from './services/firebase-auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'barsac';
-  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address'];
+  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/admin/categories'];
 
   router = inject(Router);
 
