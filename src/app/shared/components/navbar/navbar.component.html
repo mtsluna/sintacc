@@ -34,14 +34,16 @@
         <button (click)="navigateToCart()" class="text-gray-700 flex">
           <ng-icon color="black" size="24" class="h-6 w-6" name="matShoppingCartRound"></ng-icon>
         </button>
-        <span
-          class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+        @if (isLoggedIn) {
+          <span
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
           @if (cartCount !== undefined) {
             {{cartCount < 99 ? cartCount : '99'}}
           } @else {
             <span class="inline-block w-5 h-5 bg-gray-300 rounded-full animate-pulse"></span>
           }
         </span>
+        }
       </div>
     </div>
   </div>
@@ -67,7 +69,5 @@
 @if (showLoginModal) {
   <app-login-modal
     (close)="closeLoginModal()"
-    (loginWithGoogle)="loginWithGoogle()"
-    (loginWithApple)="loginWithApple()"
   ></app-login-modal>
 }

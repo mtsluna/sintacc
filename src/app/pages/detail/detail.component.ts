@@ -7,6 +7,7 @@ import {NextButtonComponent} from "../../shared/components/next-button/next-butt
 import {RecommendationComponent} from '../../shared/sections/recommendation/recommendation.component';
 import {ProductService} from '../../services/product/product.service';
 import {firstValueFrom} from 'rxjs';
+import {CartService} from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-detail',
@@ -24,9 +25,11 @@ import {firstValueFrom} from 'rxjs';
 export class DetailComponent implements OnInit {
 
   product: Product | undefined;
+  loading = false;
   router = inject(Router);
   route = inject(ActivatedRoute);
   productService = inject(ProductService);
+  cartService = inject(CartService);
 
   constructor() {}
 
@@ -36,5 +39,16 @@ export class DetailComponent implements OnInit {
     this.product = await firstValueFrom(this.productService.getProductById(id as string));
   }
 
+  addProduct(product: Product | undefined) {
+    return async () => {
+      this.loading = true;
+      await this.cartService.increaseQuantity(false, product);
+
+      const from = this.route.snapshot.queryParamMap.get('from') || '/';
+      await this.router.navigate([from]);
+
+      this.loading = false;
+    }
+  }
 
 }

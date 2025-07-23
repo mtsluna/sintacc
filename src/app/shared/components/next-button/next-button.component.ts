@@ -23,7 +23,7 @@ export class NextButtonComponent {
   disabled: boolean = false;
 
   @Input()
-  action: () => void = () => {}
+  action: () => void | Promise<void> = () => {};
 
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);

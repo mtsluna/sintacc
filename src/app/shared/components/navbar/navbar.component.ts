@@ -77,9 +77,17 @@ export class NavbarComponent implements OnInit {
       }
     })
 
-    const userId = localStorage.getItem('userId');
+    this.pickedAddress();
+  }
 
-    if(userId) {
+  async ngOnInit(): Promise<void> {
+    this.listenToAuthState();
+    return Promise.resolve();
+  }
+
+  pickedAddress() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
       this.addressService.getSelectedAddress(userId).subscribe({
         next: (value) => {
           this.selectedAddress = value;
@@ -89,7 +97,7 @@ export class NavbarComponent implements OnInit {
             address: 'Aún no tenes una dirección cargada',
           } as unknown as Address;
         }
-      })
+      });
     } else {
       this.selectedAddress = {
         address: 'Inicia sesión para ver tu dirección',
@@ -97,25 +105,31 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  async ngOnInit(): Promise<void> {
-    (await this.cartService.countProducts()).subscribe({
-      next: (count) => {
-        this.cartCount = count;
-      }
-    });
-    this.listenToAuthState();
-    return Promise.resolve();
-  }
-
   listenToAuthState() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user: User | null) => {
+    onAuthStateChanged(auth, async (user: User | null) => {
+
       this.userPhotoURL = user?.photoURL || null;
       this.isLoggedIn = !!user;
+
+      if(user) {
+        this.pickedAddress();
+        (await this.cartService.countProducts()).subscribe({
+          next: (count) => {
+            this.cartCount = count;
+          }, error: () => {
+            this.cartCount = undefined;
+          }
+        });
+      }
     });
   }
 
   async navigateToCart() {
+    if(!this.isLoggedIn) {
+      return;
+    }
+
     await this.router.navigate(['/cart'], {
       queryParams: {
         from: this.router.url
@@ -131,24 +145,12 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  async countProducts() {
-
-  }
-
-  async loginWithGoogle() {
-    await this.firebaseAuth.signInWithGoogle();
-    this.closeLoginModal();
-  }
-
-  async loginWithApple() {
-    await this.firebaseAuth.signInWithApple();
-    this.closeLoginModal();
-  }
-
   openLoginModal() {
     this.showLoginModal = true;
   }
+
   closeLoginModal() {
+    this.listenToAuthState();
     this.showLoginModal = false;
   }
   toggleProfileMenu() {
@@ -157,8 +159,12 @@ export class NavbarComponent implements OnInit {
   async logout() {
     await this.firebaseAuth.signOut();
     localStorage.removeItem('userId');
+    localStorage.removeItem('cart');
     this.userPhotoURL = null;
     this.showProfileMenu = false;
+    this.selectedAddress = {
+      address: 'Inicia sesión para ver tu dirección',
+    } as unknown as Address;
   }
 
 }

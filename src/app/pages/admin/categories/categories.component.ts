@@ -5,6 +5,7 @@ import { Category } from '../../../interfaces/category';
 import { Product } from '../../../interfaces/product';
 import { CategoryService } from '../../../services/category/category.service';
 import { ProductService } from '../../../services/product/product.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-categories',
@@ -18,7 +19,18 @@ export class CategoriesComponent {
   selectedCategoryId = signal<string>('');
   products = signal<(Product & { selectedFile?: File | null })[]>([]);
 
-  constructor(private categoryService: CategoryService, private productService: ProductService) {
+  constructor(
+    private categoryService: CategoryService,
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.queryParamMap.subscribe(params => {
+      const categoryUrl = params.get('category');
+      if (categoryUrl) {
+        this.selectedCategoryId.set(categoryUrl);
+      }
+    });
     this.fetchCategories();
     effect(() => {
       if (this.selectedCategoryId()) {
@@ -30,8 +42,11 @@ export class CategoriesComponent {
   fetchCategories() {
     this.categoryService.getCategories().subscribe(categories => {
       this.categories.set(categories);
-      if (categories.length > 0) {
-        this.selectedCategoryId.set(categories[0].url);
+      // Solo setea la categoría si no hay una seleccionada (por query param)
+      if (!this.selectedCategoryId()) {
+        if (categories.length > 0) {
+          this.selectedCategoryId.set(categories[0].url);
+        }
       }
     });
   }
@@ -49,9 +64,13 @@ export class CategoriesComponent {
     });
   }
 
-  onCategoryChange(event: Event) {
-    const value = (event.target as HTMLSelectElement).value;
+  onCategoryChange(value: string) {
     this.selectedCategoryId.set(value);
+    this.router.navigate([], {
+      queryParams: { category: value },
+      queryParamsHandling: 'merge',
+    });
+    this.fetchProducts();
   }
 
   async previewPastedImage(product: Product & { selectedFile?: File | null }) {

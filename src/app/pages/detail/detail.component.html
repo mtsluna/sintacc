@@ -20,12 +20,14 @@
         <h1 class="text-2xl font-bold mb-2">{{product?.name}}</h1>
         <p class="text-gray-500 text-sm mb-4">{{product?.description}}</p>
         <div class="flex flex-col justify-between">
-          <span class="text-sm line-through text-gray-400">{{ (product?.price || 0) | currency }}</span>
+          @if (product?.discount) {
+            <span class="text-sm line-through text-gray-400">{{ (product?.price || 0) | currency }}</span>
+          }
           <span class="text-lg font-semibold text-gray-800">{{ (product?.price || 0) - ((product?.price || 0) * (product?.discount || 0) / 100) | currency }}</span>
         </div>
       </div>
     }
   </div>
   <app-recommendation [category]="product?.category_id" title="Artículos similares"></app-recommendation>
-  <app-next-button class="fixed bottom-4 left-4 w-full" title="Agregar al carrito" subtitle="Ya casi es tuyo!"></app-next-button>
+  <app-next-button [action]="addProduct(product)" class="fixed bottom-4 left-4 w-full" title="Agregar al carrito" subtitle="Ya casi es tuyo!"></app-next-button>
 </div>
