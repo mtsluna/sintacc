@@ -20,3 +20,7 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.ios-safe-area {
+  padding-top: env(safe-area-inset-top);
+}

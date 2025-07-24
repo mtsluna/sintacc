@@ -22,6 +22,12 @@ export class AppComponent implements OnInit {
   constructor(private firebaseAuthService: FirebaseAuthService) {}
 
   ngOnInit() {
+    // iOS safe area detection
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    if (isIOS) {
+      document.body.classList.add('ios-safe-area');
+    }
+
     const auth = this.firebaseAuthService['auth'];
     getRedirectResult(auth)
       .then((result: UserCredential | null) => {
