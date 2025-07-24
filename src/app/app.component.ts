@@ -5,10 +5,11 @@ import {SpinnerComponent} from './shared/components/spinner/spinner.component';
 import {GoogleMapsModule} from '@angular/google-maps';
 import {getAuth, getRedirectResult, UserCredential} from 'firebase/auth';
 import { FirebaseAuthService } from './services/firebase-auth.service';
+import {NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, SpinnerComponent, GoogleMapsModule],
+  imports: [RouterOutlet, NavbarComponent, SpinnerComponent, GoogleMapsModule, NgStyle],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.scss'
@@ -46,4 +47,6 @@ export class AppComponent implements OnInit {
   shouldShowNavbar(): boolean {
     return !this.hiddenRoutes.some(route => this.router.url.includes(route));
   }
+
+  protected readonly navigator = navigator;
 }

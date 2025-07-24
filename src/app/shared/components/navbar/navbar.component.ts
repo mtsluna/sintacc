@@ -11,13 +11,15 @@ import {AddressService} from '../../../services/address/address.service';
 import { FirebaseAuthService } from '../../../services/firebase-auth.service';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import {NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   imports: [
     NgIcon,
     ReactiveFormsModule,
-    LoginModalComponent
+    LoginModalComponent,
+    NgStyle
   ],
   providers: [
     provideIcons({
