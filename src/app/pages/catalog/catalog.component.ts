@@ -53,7 +53,8 @@ export class CatalogComponent implements OnInit {
             id: 'abc1234',
             name: `Tu busqueda`,
             url: 'search',
-            products
+            products,
+            active: true
           }
         ]
       }
