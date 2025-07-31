@@ -1,7 +1,7 @@
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import { matExpandMoreRound, matShoppingCartRound, matSearchRound, matCloseRound, matPersonRound, matLoginRound } from '@ng-icons/material-icons/round';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
@@ -19,7 +19,8 @@ import {NgStyle} from '@angular/common';
     NgIcon,
     ReactiveFormsModule,
     LoginModalComponent,
-    NgStyle
+    NgStyle,
+    RouterLink
   ],
   providers: [
     provideIcons({

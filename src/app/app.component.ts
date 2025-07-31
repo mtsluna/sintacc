@@ -16,7 +16,7 @@ import {NgStyle} from '@angular/common';
 })
 export class AppComponent implements OnInit {
   title = 'barsac';
-  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/admin/categories', 'privacy-policy'];
+  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/admin/categories', 'privacy-policy', 'confirmation'];
 
   router = inject(Router);
 

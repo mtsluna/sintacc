@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
 import {Product} from '../../interfaces/product';
 import {API_URL} from '../../constants/api';
+import {Cart} from '../../interfaces/cart';
 
 @Injectable({
   providedIn: 'root'
@@ -97,17 +98,7 @@ export class CartService {
     }));
   }
 
-  async getCart(): Promise<{
-    id: string; user_id: string; products: Array<{
-      product_id: string;
-      name: string;
-      image: string;
-      price: number;
-      original_price: number;
-      discount: number;
-      quantity: number;
-    }>;
-  }> {
+  async getCart(): Promise<Cart> {
     let cart = localStorage.getItem('cart');
 
     if (cart == null) {
@@ -121,6 +112,7 @@ export class CartService {
     return await firstValueFrom(this.http.get<{
       id: string;
       user_id: string;
+      status: string;
       products: Array<{
         product_id: string;
         name: string;
