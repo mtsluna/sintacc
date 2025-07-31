@@ -6,8 +6,6 @@ import {
   matCheckCircleOutlineRound,
   matCancelRound
 } from '@ng-icons/material-icons/round';
-import {Cart} from '../../interfaces/cart';
-import {CartService} from '../../services/cart/cart.service';
 import {NgClass} from '@angular/common';
 
 @Component({
