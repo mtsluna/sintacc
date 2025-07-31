@@ -1,30 +1,30 @@
 <div class="relative max-w-lg mx-auto">
-  @if (cart !== undefined) {
-    <div [ngClass]="cart?.status === 'PAID' ? 'bg-green-300' : 'bg-red-300'" class="h-40 w-full flex flex-col items-center justify-center">
-      <ng-icon style="color: white" size="72" [name]="cart?.status === 'PAID' ? 'matCheckCircleOutlineRound' : 'matCancelRound'"></ng-icon>
+  @if (isLoading) {
+    <div [ngClass]="status === 'PAID' ? 'bg-green-300' : 'bg-red-300'" class="h-40 w-full flex flex-col items-center justify-center">
+      <ng-icon style="color: white" size="72" [name]="status === 'PAID' ? 'matCheckCircleOutlineRound' : 'matCancelRound'"></ng-icon>
     </div>
   } @else {
     <div class="h-40 w-full bg-gray-200 animate-pulse flex flex-col items-center justify-center"></div>
   }
   <div class="flex flex-col items-center justify-center">
-    @if (cart === undefined) {
+    @if (!isLoading) {
       <div class="m-8 h-8 w-2/3 bg-gray-200 rounded mb-4 animate-pulse"></div>
       <div class="h-6 w-1/2 bg-gray-100 rounded mb-2 animate-pulse"></div>
       <div class="h-4 w-1/3 bg-gray-100 rounded animate-pulse"></div>
     } @else {
-      <h1 class="font-bold m-8 text-lg">{{ cart?.status === 'PAID' ? 'Gracias por tu compra!' : 'Tu compra no se pudo procesar' }}</h1>
+      <h1 class="font-bold m-8 text-lg">{{ status === 'PAID' ? 'Gracias por tu compra!' : 'Tu compra no se pudo procesar' }}</h1>
       <div class="flex flex-col items-center justify-center gap-2">
-        <h1>{{ cart?.status === 'PAID' ? 'En unos minutos recibiras tu compra' : 'Estamos investigando lo sucedido.' }}</h1>
-        @if (cart?.status === 'PAID') {
+        <h1>{{ status === 'PAID' ? 'En unos minutos recibiras tu compra' : 'Estamos investigando lo sucedido.' }}</h1>
+        @if (status === 'PAID') {
           <div class="flex flex-col items-center justify-center">
-            <p class="font-light">Tu identificador de orden es: <b>#{{ cart?.id?.substring(0,8) }}</b></p>
+            <p class="font-light">Tu identificador de orden es: <b>#{{ cart?.substring(0,8) }}</b></p>
           </div>
         }
       </div>
     }
   </div>
 
-  @if (cart === undefined) {
+  @if (!isLoading) {
     <div class="fixed bottom-24 w-full flex justify-center">
       <div class="h-6 w-2/3 bg-gray-200 rounded animate-pulse"></div>
     </div>
@@ -33,6 +33,6 @@
     </div>
   } @else {
     <a href="https://wa.me/5492614600070?text=Buenas.%20Necesito%20ayuda%20con%20mi%20pedido%20%231234" class="fixed bottom-24 w-full font-extralight text-center">Tenes problemas? Contactanos</a>
-    <app-next-button [action]="goToCatalog" class="fixed bottom-8 left-4 w-full" title="Volver al catalogo" subtitle="{{ cart?.status === 'PAID' ? 'Gracias por tu compra!' : 'Lo sentimos!' }}"></app-next-button>
+    <app-next-button [action]="goToCatalog" class="fixed bottom-8 left-4 w-full" title="Volver al catalogo" subtitle="{{ status === 'PAID' ? 'Gracias por tu compra!' : 'Lo sentimos!' }}"></app-next-button>
   }
 </div>

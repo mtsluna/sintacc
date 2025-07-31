@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {NextButtonComponent} from '../../shared/components/next-button/next-button.component';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {
@@ -27,19 +27,20 @@ import {NgClass} from '@angular/common';
   styleUrl: './confirmation.component.scss'
 })
 export class ConfirmationComponent implements OnInit {
+  status!: string | undefined;
+  cart!: string | null
+  isLoading = false;
+  route = inject(ActivatedRoute);
 
-  cart!: Cart;
-  cartService = inject(CartService);
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-  }
-
-  async ngOnInit(): Promise<void> {
-    try {
-      this.cart = await this.cartService.getCart();
-    } catch (e) {
-      this.cart = { id: 'FAILED', status: 'FAILED' } as any;
-    }
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.route.queryParamMap.subscribe(params => {
+      this.status = params.get('status') || undefined;
+      this.cart = params.get('cart');
+      this.isLoading = false;
+    });
   }
 
   async goToCatalog() {
