@@ -35,7 +35,11 @@ export class ConfirmationComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.cart = await this.cartService.getCart();
+    try {
+      this.cart = await this.cartService.getCart();
+    } catch (e) {
+      this.cart = { id: 'FAILED', status: 'FAILED' } as any;
+    }
   }
 
   async goToCatalog() {
