@@ -32,7 +32,7 @@
       <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
     </div>
   } @else {
-    <a href="https://wa.me/5492614600070?text=Buenas.%20Necesito%20ayuda%20con%20mi%20pedido%20%231234" class="fixed bottom-24 w-full font-extralight text-center">Tenes problemas? Contactanos</a>
+    <a href="https://wa.me/5492614600070?text=Buenas.%20Necesito%20ayuda%20con%20mi%20pedido%20%23{{cart?.substring(0,8)}}" class="fixed bottom-24 w-full font-extralight text-center">Tenes problemas? Contactanos</a>
     <app-next-button [action]="goToCatalog" class="fixed bottom-8 left-4 w-full" title="Volver al catalogo" subtitle="{{ status === 'approved' ? 'Gracias por tu compra!' : 'Lo sentimos!' }}"></app-next-button>
   }
 </div>
