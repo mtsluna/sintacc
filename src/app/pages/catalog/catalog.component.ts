@@ -1,17 +1,17 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CardComponent} from '../../shared/components/card/card.component';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
-import {ActivatedRoute, ParamMap, Router, UrlSegment} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Category} from '../../interfaces/category';
-import {async, firstValueFrom, map, merge} from 'rxjs';
+import {async, firstValueFrom} from 'rxjs';
 import {ProductService} from '../../services/product/product.service';
 import {CategoryService} from '../../services/category/category.service';
 
 @Component({
   selector: 'app-catalog',
   imports: [
-      CardComponent,
-      NextButtonComponent
+    CardComponent,
+    NextButtonComponent,
   ],
   templateUrl: './catalog.component.html',
   standalone: true,

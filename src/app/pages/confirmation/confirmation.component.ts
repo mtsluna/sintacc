@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, Renderer2, Inject, OnDestroy} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {NextButtonComponent} from '../../shared/components/next-button/next-button.component';
 import {NgIcon, provideIcons} from '@ng-icons/core';
@@ -7,6 +7,7 @@ import {
   matCancelRound
 } from '@ng-icons/material-icons/round';
 import {NgClass} from '@angular/common';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-confirmation',
@@ -24,13 +25,17 @@ import {NgClass} from '@angular/common';
   templateUrl: './confirmation.component.html',
   styleUrl: './confirmation.component.scss'
 })
-export class ConfirmationComponent implements OnInit {
+export class ConfirmationComponent implements OnInit, OnDestroy {
   status!: string | undefined;
   cart!: string | null
   isLoading = false;
   route = inject(ActivatedRoute);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -39,7 +44,12 @@ export class ConfirmationComponent implements OnInit {
       this.cart = params.get('cart');
       localStorage.clear();
       this.isLoading = false;
+      this.document.body.style.setProperty('--safe-area-color', this.status === 'approved' ? 'var(--color-green-300)' : 'var(--color-red-300)');
     });
+  }
+
+  ngOnDestroy(): void {
+    this.document.body.style.setProperty('--safe-area-color', '#fff');
   }
 
   async goToCatalog() {

@@ -29,7 +29,7 @@ body.ios-safe-area::before {
   left: 0;
   width: 100vw;
   height: env(safe-area-inset-top, 0px);
-  background: #fff;
+  background: var(--safe-area-color, #fff); /* Usa variable para el color */
   z-index: 9999;
   pointer-events: none;
 }
@@ -46,4 +46,8 @@ select {
 
 html, body {
   overscroll-behavior: none;
+}
+
+:root {
+  --safe-area-color: #fff;
 }

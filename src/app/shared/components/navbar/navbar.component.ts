@@ -19,8 +19,7 @@ import {NgStyle} from '@angular/common';
     NgIcon,
     ReactiveFormsModule,
     LoginModalComponent,
-    NgStyle,
-    RouterLink
+    NgStyle
   ],
   providers: [
     provideIcons({
