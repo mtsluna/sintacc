@@ -42,7 +42,7 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe(params => {
       this.status = params.get('status') || undefined;
       this.cart = params.get('cart');
-      localStorage.clear();
+      localStorage.removeItem('cart');
       this.isLoading = false;
       this.document.body.style.setProperty('--safe-area-color', this.status === 'approved' ? 'var(--color-green-300)' : 'var(--color-red-300)');
     });
