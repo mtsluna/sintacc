@@ -103,13 +103,11 @@ export class CartService {
 
     if (cart == null) {
       const userId = localStorage.getItem('userId') || 'empty';
-
       cart = (await firstValueFrom(this.createCart(userId))).id;
-
       localStorage.setItem('cart', cart);
     }
 
-    return await firstValueFrom(this.http.get<{
+    const cartData = await firstValueFrom(this.http.get<{
       id: string;
       user_id: string;
       status: string;
@@ -123,6 +121,15 @@ export class CartService {
         quantity: number;
       }>;
     }>(`${this.apiUrl}/${cart}`));
+
+    if (cartData.status !== 'PENDING') {
+      const userId = localStorage.getItem('userId') || 'empty';
+      const newCartId = (await firstValueFrom(this.createCart(userId))).id;
+      localStorage.setItem('cart', newCartId);
+      return await firstValueFrom(this.http.get<Cart>(`${this.apiUrl}/${newCartId}`));
+    }
+
+    return cartData;
   }
 
   async countProducts(): Promise<BehaviorSubject<number>> {
