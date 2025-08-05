@@ -54,5 +54,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
 
   async goToCatalog() {
     await this.router.navigate(['/']);
+    window.scrollTo(0, 0);
   }
 }

@@ -67,6 +67,7 @@ export class CatalogComponent implements OnInit {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 
   async navigateToCategory(category: Category) {
@@ -75,10 +76,12 @@ export class CatalogComponent implements OnInit {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 
   async navigateToCatalog() {
     await this.router.navigate(['']);
+    window.scrollTo(0, 0);
   }
 
   isOnCategoryRoute(): boolean {

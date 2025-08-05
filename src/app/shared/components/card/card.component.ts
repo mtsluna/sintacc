@@ -32,6 +32,7 @@ export class CardComponent {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 
   async addProduct(product: Product | undefined) {

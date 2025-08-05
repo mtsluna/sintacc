@@ -49,6 +49,7 @@ export class CartComponent implements OnInit {
   async navigateToFrom() {
     const from = this.activatedRoute.snapshot.queryParamMap.get('from') || '/';
     await this.router.navigate([from]);
+    window.scrollTo(0, 0);
   }
 
   async navigateToCheckout() {
@@ -57,6 +58,7 @@ export class CartComponent implements OnInit {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 
   async removeProduct(product: Product | undefined) {

@@ -62,7 +62,8 @@ export class NavbarComponent implements OnInit {
           queryParams: {
               ...(value ? { q: value } : {})
           }
-        })
+        });
+        window.scrollTo(0, 0);
       },
       error: (err) => {
         console.error('Error in search input:', err);
@@ -137,6 +138,7 @@ export class NavbarComponent implements OnInit {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 
   async navigateToProfileAddress() {
@@ -145,6 +147,7 @@ export class NavbarComponent implements OnInit {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 
   openLoginModal() {

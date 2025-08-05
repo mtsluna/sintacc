@@ -46,10 +46,10 @@ export class DetailComponent implements OnInit {
 
       const from = this.route.snapshot.queryParamMap.get('from') || '/';
       await this.router.navigate([from]);
+      window.scrollTo(0, 0);
 
       this.loading = false;
     }
   }
 
 }
-

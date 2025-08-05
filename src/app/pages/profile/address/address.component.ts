@@ -59,5 +59,6 @@ export class AddressComponent implements OnInit {
         from: this.router.url
       }
     });
+    window.scrollTo(0, 0);
   }
 }
