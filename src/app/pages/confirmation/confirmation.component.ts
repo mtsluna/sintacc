@@ -37,6 +37,7 @@ export class ConfirmationComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
       this.status = params.get('status') || undefined;
       this.cart = params.get('cart');
+      localStorage.clear();
       this.isLoading = false;
     });
   }
