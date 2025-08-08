@@ -115,9 +115,12 @@ export class NavbarComponent implements OnInit {
       this.userPhotoURL = user?.photoURL || null;
       this.isLoggedIn = !!user;
 
+      console.log(user)
+
+      // Siempre actualizar la dirección cuando cambia el estado de auth
       this.pickedAddress();
 
-      if(user) {
+      if(user || user !== null) {
         (await this.cartService.countProducts()).subscribe({
           next: (count) => {
             this.cartCount = count;
@@ -125,6 +128,13 @@ export class NavbarComponent implements OnInit {
             this.cartCount = undefined;
           }
         });
+      } else {
+        // Cuando el usuario se deslogea, limpiar datos
+        this.cartCount = undefined;
+        this.showProfileMenu = false;
+        this.selectedAddress = {
+          address: 'Inicia sesión para ver tu dirección',
+        } as unknown as Address;
       }
     });
   }

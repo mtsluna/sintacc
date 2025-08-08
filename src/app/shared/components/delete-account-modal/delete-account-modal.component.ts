@@ -36,9 +36,9 @@ export class DeleteAccountModalComponent implements OnInit, OnDestroy {
     this.error = '';
 
     try {
-      await this.firebaseAuth.deleteCurrentUser();
-
       localStorage.removeItem('userId');
+
+      await this.firebaseAuth.deleteCurrentUser();
 
       this.closeModal();
 
