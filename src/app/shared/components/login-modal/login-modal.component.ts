@@ -10,7 +10,7 @@ import {firstValueFrom} from 'rxjs';
 @Component({
   selector: 'app-login-modal',
   template: `
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div class="fixed inset-0 z-2000 flex items-center justify-center bg-black/30 backdrop-blur-sm">
       <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-xs relative">
         <button (click)="close.emit()" class="absolute top-4 right-4 text-gray-400 hover:text-black">&times;</button>
         <h2 class="text-lg font-bold mb-6 text-center">Iniciar sesión</h2>
