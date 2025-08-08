@@ -1,8 +1,14 @@
 <div class="bg-black p-4 pb-12 mt-4 flex flex-col gap-4">
   <img class="h-28 w-28" src="assets/barsac-logo.png" alt="Barsac Logo">
   <a routerLink="privacy-policy" class="text-white font-medium">Politicas de privacidad</a>
-  <a class="text-white font-medium">Eliminar mi cuenta</a>
+  @if (isLoggedIn) {
+    <a class="text-white font-medium cursor-pointer" (click)="openDeleteModal()">Eliminar mi cuenta</a>
+  }
   <div class="outline-1 outline-white"></div>
   <h3 class="text-white font-medium">Copyright © 2025 Barsac S.A.S.</h3>
   <h4 class="text-white font-medium">Av. San Martin Sur 2185, Godoy Cruz, Mendoza</h4>
 </div>
+
+@if (showDeleteModal) {
+  <app-delete-account-modal (close)="closeDeleteModal()"></app-delete-account-modal>
+}

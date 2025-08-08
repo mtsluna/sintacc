@@ -115,8 +115,9 @@ export class NavbarComponent implements OnInit {
       this.userPhotoURL = user?.photoURL || null;
       this.isLoggedIn = !!user;
 
+      this.pickedAddress();
+
       if(user) {
-        this.pickedAddress();
         (await this.cartService.countProducts()).subscribe({
           next: (count) => {
             this.cartCount = count;

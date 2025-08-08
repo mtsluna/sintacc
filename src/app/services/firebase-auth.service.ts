@@ -8,7 +8,8 @@ import {
   signInWithCredential,
   signInWithPopup,
   signInWithRedirect,
-  UserCredential
+  UserCredential,
+  deleteUser
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -59,5 +60,12 @@ export class FirebaseAuthService {
   async getIdToken(): Promise<string | null> {
     if (!this.auth.currentUser) return null;
     return await this.auth.currentUser.getIdToken();
+  }
+
+  async deleteCurrentUser(): Promise<void> {
+    if (!this.auth.currentUser) {
+      throw new Error('No hay usuario autenticado');
+    }
+    await deleteUser(this.auth.currentUser);
   }
 }
