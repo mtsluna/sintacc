@@ -6,12 +6,14 @@ import {Category} from '../../interfaces/category';
 import {async, firstValueFrom} from 'rxjs';
 import {ProductService} from '../../services/product/product.service';
 import {CategoryService} from '../../services/category/category.service';
+import {FooterComponent} from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-catalog',
   imports: [
     CardComponent,
     NextButtonComponent,
+    FooterComponent,
   ],
   templateUrl: './catalog.component.html',
   standalone: true,

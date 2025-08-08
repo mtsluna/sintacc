@@ -1,4 +1,4 @@
-<div class="relative p-4 mb-20 flex flex-col gap-8">
+<div class="relative p-4 flex flex-col gap-8">
   @if (categories?.length) {
     @for (category of categories; track category.name) {
       <div>
@@ -32,5 +32,6 @@
       </div>
     }
   }
-  <app-next-button [action]="navigateToCart" class="fixed bottom-8 left-4 w-full" title="Ir al carrito" subtitle="Tu carrito esta listo!"></app-next-button>
 </div>
+<app-next-button [action]="navigateToCart" class="w-full" title="Ir al carrito" subtitle="Tu carrito esta listo!"></app-next-button>
+<app-footer></app-footer>
