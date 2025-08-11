@@ -37,6 +37,7 @@ export class DeleteAccountModalComponent implements OnInit, OnDestroy {
 
     try {
       localStorage.removeItem('userId');
+      localStorage.removeItem('cart');
 
       await this.firebaseAuth.deleteCurrentUser();
 
