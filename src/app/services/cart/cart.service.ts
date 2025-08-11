@@ -129,7 +129,7 @@ export class CartService {
       return await firstValueFrom(this.http.get<Cart>(`${this.apiUrl}/${newCartId}`));
     }
 
-    return cartData;
+    return cartData as unknown as Cart;
   }
 
   async countProducts(): Promise<BehaviorSubject<number>> {
@@ -143,6 +143,15 @@ export class CartService {
     }
 
     return this.count;
+  }
+
+  async getPaidCarts(): Promise<Cart[]> {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      return [];
+    }
+
+    return await firstValueFrom(this.http.get<Cart[]>(`${this.apiUrl}/user/${userId}/paid`));
   }
 
   private async modifyProductQuantity(productId: string, quantity: number): Promise<{

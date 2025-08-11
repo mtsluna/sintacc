@@ -8,6 +8,7 @@ import {AddressEditComponent} from './pages/profile/address/edit/address-edit.co
 import { CategoriesComponent } from './pages/admin/categories/categories.component';
 import {PrivacyPolicyComponent} from './pages/privacy-policy/privacy-policy.component';
 import {ConfirmationComponent} from './pages/confirmation/confirmation.component';
+import {OrdersComponent} from './pages/profile/orders/orders.component';
 
 export const routes: Routes = [
   {
@@ -53,5 +54,9 @@ export const routes: Routes = [
   {
     path: 'confirmation',
     component: ConfirmationComponent
+  },
+  {
+    path: 'profile/orders',
+    component: OrdersComponent
   }
 ];

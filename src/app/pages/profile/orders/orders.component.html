@@ -1,0 +1,122 @@
+<div class="relative max-w-lg mx-auto bg-white rounded-lg p-6">
+  <h1 class="text-xl font-bold mb-2">Mis Pedidos</h1>
+  <h2 class="text-me text-gray-500 mb-4">Historial de pedidos realizados</h2>
+
+  <app-back-button></app-back-button>
+
+  @if (isLoading) {
+    <div class="flex flex-col gap-4 py-4">
+      @for (skeleton of [0,1,2]; track skeleton) {
+        <div class="h-32 bg-gray-200 rounded animate-pulse"></div>
+      }
+    </div>
+  } @else if (paidCarts.length === 0) {
+    <div class="flex flex-col items-center justify-center py-8">
+      <div class="text-gray-400 mb-2">No tienes pedidos realizados</div>
+      <div class="text-sm text-gray-500">Cuando realices tu primer pedido aparecerá aquí</div>
+    </div>
+  } @else {
+    <div class="flex flex-col gap-6 py-4">
+      @for (cart of paidCarts; track cart.id) {
+        <div class="border rounded p-4 bg-white">
+          <!-- Header del pedido -->
+          <div class="flex justify-between items-center mb-4">
+            <div class="flex flex-col">
+              <h3 class="text-lg font-semibold">Pedido #{{ cart.id.slice(-8) }}</h3>
+              <span class="text-sm text-green-600 font-medium">PAGADO</span>
+              <span class="text-xs text-gray-500">{{ formatDate(cart.created_at) }}</span>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold">${{ cart.total | number:'1.0-0' }}</div>
+              <div class="text-xs text-gray-500">Total</div>
+            </div>
+          </div>
+
+          <!-- Lista de productos -->
+          <div class="mb-4">
+            <!-- Botón para expandir/colapsar productos -->
+            <button
+              (click)="toggleCartExpansion(cart.id)"
+              class="w-full flex items-center justify-between bg-white rounded-lg p-3 border hover:bg-gray-50 transition-colors">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-medium">
+                  {{ cart.products.length }} producto{{ cart.products.length !== 1 ? 's' : '' }}
+                </span>
+                <span class="text-xs text-gray-500">
+                  ({{ getTotalUnits(cart) }} unidades)
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-600">Ver detalles</span>
+                <svg
+                  class="w-4 h-4 transform transition-transform duration-200"
+                  [class.rotate-180]="isCartExpanded(cart.id)"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </button>
+
+            <!-- Lista desplegable de productos -->
+            <div class="overflow-hidden transition-all duration-300 ease-in-out"
+                 [style.max-height]="isCartExpanded(cart.id) ? '1000px' : '0px'"
+                 [style.opacity]="isCartExpanded(cart.id) ? '1' : '0'">
+              <div class="flex flex-col gap-3 mt-3">
+                @for (product of cart.products; track product.product_id) {
+                  <div class="flex items-center justify-between bg-white rounded-lg p-3 transform transition-all duration-200"
+                       [style.transform]="isCartExpanded(cart.id) ? 'translateY(0)' : 'translateY(-10px)'">
+                    <div class="flex items-center">
+                      @if (product.image) {
+                        <img [src]="product.image" [alt]="product.name" class="w-12 h-12 object-cover rounded-md mr-3">
+                      } @else {
+                        <div class="w-12 h-12 bg-gray-200 rounded-md mr-3"></div>
+                      }
+                      <div class="max-w-36">
+                        <h4 class="text-sm font-medium line-clamp-2">{{ product.name }}</h4>
+                        <span class="text-xs text-gray-500">Cantidad: {{ product.quantity }}</span>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      @if (product.original_price !== product.price) {
+                        <span class="text-xs line-through text-gray-400 block">${{ product.original_price | number:'1.0-0' }}</span>
+                      }
+                      <span class="text-sm font-semibold">${{ product.price | number:'1.0-0' }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumen del pedido -->
+          <div class="pt-3">
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-gray-600">Costo de los productos</span>
+              <span>${{ cart.products_total | number:'1.0-0' }}</span>
+            </div>
+            @if (cart.products_discount > 0) {
+              <div class="flex justify-between text-sm mb-1 text-green-600">
+                <span>Descuento productos</span>
+                <span>-${{ cart.products_discount | number:'1.0-0' }}</span>
+              </div>
+            }
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-gray-600">Costo de envío</span>
+              <span>${{ cart.ship_total | number:'1.0-0' }}</span>
+            </div>
+            @if (cart.ship_discount > 0) {
+              <div class="flex justify-between text-sm mb-2 text-green-600">
+                <span>Descuento envío</span>
+                <span>-${{ cart.ship_discount | number:'1.0-0' }}</span>
+              </div>
+            }
+            <div class="flex justify-between font-semibold text-base pt-2">
+              <span>Total</span>
+              <span>${{ cart.total | number:'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

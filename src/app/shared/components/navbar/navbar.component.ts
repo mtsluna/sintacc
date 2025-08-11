@@ -183,4 +183,8 @@ export class NavbarComponent implements OnInit {
     } as unknown as Address;
   }
 
+  async navigateToOrders() {
+    await this.router.navigate(['/profile/orders'])
+  }
+
 }
