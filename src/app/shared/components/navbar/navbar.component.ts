@@ -173,9 +173,9 @@ export class NavbarComponent implements OnInit {
     this.showProfileMenu = !this.showProfileMenu;
   }
   async logout() {
-    await this.firebaseAuth.signOut();
     localStorage.removeItem('userId');
     localStorage.removeItem('cart');
+    await this.firebaseAuth.signOut();
     this.userPhotoURL = null;
     this.showProfileMenu = false;
     this.selectedAddress = {
