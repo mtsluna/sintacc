@@ -5,6 +5,7 @@ import {SpinnerComponent} from './shared/components/spinner/spinner.component';
 import {GoogleMapsModule} from '@angular/google-maps';
 import {getAuth, getRedirectResult, UserCredential} from 'firebase/auth';
 import { FirebaseAuthService } from './services/firebase-auth.service';
+import { SafeAreaService } from './services/safe-area/safe-area.service';
 import {NgStyle} from '@angular/common';
 
 @Component({
@@ -20,14 +21,14 @@ export class AppComponent implements OnInit {
 
   router = inject(Router);
 
-  constructor(private firebaseAuthService: FirebaseAuthService) {}
+  constructor(
+    private firebaseAuthService: FirebaseAuthService,
+    private safeAreaService: SafeAreaService
+  ) {}
 
   ngOnInit() {
-    // iOS safe area detection
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    if (isIOS) {
-      document.body.classList.add('ios-safe-area');
-    }
+    // El SafeAreaService ya se inicializa automáticamente en el constructor
+    // y maneja tanto iOS como Android
 
     const auth = this.firebaseAuthService['auth'];
     getRedirectResult(auth)
