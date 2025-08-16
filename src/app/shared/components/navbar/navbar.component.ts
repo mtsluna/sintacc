@@ -37,6 +37,7 @@ import {NgStyle} from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
 
+  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/profile/orders', '/admin/categories', 'privacy-policy', 'confirmation'];
   destroyRef: DestroyRef = inject(DestroyRef);
   search = new FormControl('');
   router = inject(Router);
@@ -206,6 +207,10 @@ export class NavbarComponent implements OnInit {
     return {
       'top': '0px'
     };
+  }
+
+  shouldShowNavbar(): boolean {
+    return !this.hiddenRoutes.some(route => this.router.url.includes(route));
   }
 
 }

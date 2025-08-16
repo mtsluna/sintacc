@@ -34,13 +34,10 @@ export class AppComponent implements OnInit {
     getRedirectResult(auth)
       .then((result: UserCredential | null) => {
         if (result && result.user) {
-          // Handle successful sign-in after redirect
-          // For example, you can store user info or show a welcome message
           console.log('Signed in after redirect:', result.user);
         }
       })
       .catch((error) => {
-        // Handle errors from redirect sign-in
         console.error('Redirect sign-in error:', error);
       });
   }
