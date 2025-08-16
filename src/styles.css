@@ -21,26 +21,20 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* Safe Area Support para iOS */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: env(safe-area-inset-top, 0px);
-  background: var(--safe-area-color, #fff);
-  z-index: 9999;
-  pointer-events: none;
+/* iOS Safe Area Support - Clean implementation without extra elements */
+body.ios-safe-area {
+  /* No padding adicional en el body para iOS */
+  background-color: #fff;
 }
 
+/* Evitar cualquier padding extra en iOS */
 body.ios-safe-area {
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: 0 !important;
 }
 
 /* Safe Area Support para Android */
 body.android-safe-area {
-  padding-top: 0px !important;
+  padding-top: max(env(safe-area-inset-top, 0px), 24px) !important;
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px) !important;
   background-color: var(--safe-area-color, #fff);
 }
@@ -80,54 +74,13 @@ body.android-safe-area::after {
   height: max(env(safe-area-inset-bottom, 0px), 16px) !important;
 }
 
-/* Button navigation específico */
-.android-button-navigation {
-  padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--nav-bar-height, 48px)) !important;
-}
-
-.android-button-navigation::after {
-  height: max(env(safe-area-inset-bottom, 0px), var(--nav-bar-height, 48px)) !important;
-}
-
-/* Support para todos los dispositivos móviles - Actualizado */
-@supports (padding: max(0px)) {
-  body.mobile-safe-area {
-    padding-top: max(env(safe-area-inset-top, 0px), 20px);
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px);
-    padding-left: env(safe-area-inset-left, 0px);
-    padding-right: env(safe-area-inset-right, 0px);
-  }
-}
-
-/* Viewport específico para Android con display cutout */
-@media screen and (display-mode: standalone) {
-  body.android-safe-area {
-    /* Para dispositivos Android con notch/punch hole */
-    padding-top: max(env(safe-area-inset-top, 0px), 24px);
-  }
-}
-
-/* Variables específicas para diferentes tipos de barras en Android */
+/* Variables CSS para safe area */
 :root {
   --safe-area-color: #fff;
   --safe-area-bottom-color: #fff;
-  --status-bar-height: 0px;
-  --nav-bar-height: 0px;
 }
 
-/* Clases utilitarias para diferentes configuraciones de Android */
-.android-status-bar-dark {
-  --safe-area-color: #000;
-}
-
-.android-nav-bar-dark {
-  --safe-area-bottom-color: #000;
-}
-
+/* Prevenir scroll rebote en iOS */
 html, body {
   overscroll-behavior: none;
-}
-
-:root {
-  --safe-area-color: #fff;
 }
