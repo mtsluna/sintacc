@@ -29,6 +29,19 @@ export class CatalogComponent implements OnInit {
 
   constructor() {}
 
+  getContentPaddingTop(): string {
+    const isAndroid = /android/i.test(navigator.userAgent);
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+      return '168px';
+    } else if (isIOS) {
+      return 'calc(120px + env(safe-area-inset-top, 0px) + 16px)';
+    }
+
+    return '136px';
+  }
+
   async ngOnInit(): Promise<void> {
     const categoryId = this.route.snapshot.paramMap.get('categoryId');
 

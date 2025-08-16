@@ -187,4 +187,21 @@ export class NavbarComponent implements OnInit {
     await this.router.navigate(['/profile/orders'])
   }
 
+  getNavbarStyles() {
+    const isAndroid = /android/i.test(navigator.userAgent);
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+      return {
+        'padding-top': 'max(env(safe-area-inset-top, 0px), 32px)'
+      };
+    } else if (isIOS) {
+      return {
+        'padding-top': 'env(safe-area-inset-top, 0px)'
+      };
+    }
+
+    return {};
+  }
+
 }
