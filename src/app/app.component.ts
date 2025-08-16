@@ -3,7 +3,7 @@ import {Router, RouterOutlet} from '@angular/router';
 import {NavbarComponent} from './shared/components/navbar/navbar.component';
 import {SpinnerComponent} from './shared/components/spinner/spinner.component';
 import {GoogleMapsModule} from '@angular/google-maps';
-import {getAuth, getRedirectResult, UserCredential} from 'firebase/auth';
+import {getRedirectResult, UserCredential} from 'firebase/auth';
 import { FirebaseAuthService } from './services/firebase-auth.service';
 import { SafeAreaService } from './services/safe-area/safe-area.service';
 import {NgStyle} from '@angular/common';
