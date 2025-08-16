@@ -193,15 +193,19 @@ export class NavbarComponent implements OnInit {
 
     if (isAndroid) {
       return {
-        'padding-top': 'max(env(safe-area-inset-top, 0px), 32px)'
+        'top': '0px',
+        'padding-top': 'calc(max(env(safe-area-inset-top, 0px), 24px) + 16px)'
       };
     } else if (isIOS) {
       return {
-        'padding-top': 'env(safe-area-inset-top, 0px)'
+        'top': 'env(safe-area-inset-top, 0px)',
+        'padding-top': '16px'
       };
     }
 
-    return {};
+    return {
+      'top': '0px'
+    };
   }
 
 }

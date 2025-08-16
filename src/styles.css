@@ -21,35 +21,28 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* iOS Safe Area Support - Clean implementation without extra elements */
-body.ios-safe-area {
-  /* No padding adicional en el body para iOS */
-  background-color: #fff;
-}
-
-/* Evitar cualquier padding extra en iOS */
-body.ios-safe-area {
-  padding-top: 0 !important;
-}
-
-/* Safe Area Support para Android */
-body.android-safe-area {
-  padding-top: max(env(safe-area-inset-top, 0px), 24px) !important;
-  padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px) !important;
-  background-color: var(--safe-area-color, #fff);
-}
-
-/* Barra de estado (notification bar) para Android */
-body.android-safe-area::before {
-  content: "";
+body.ios-safe-area::before {
+  content: '';
+  display: block;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: max(env(safe-area-inset-top, 0px), 24px);
-  background: var(--safe-area-color, #fff);
-  z-index: 9998;
+  height: env(safe-area-inset-top, 0px);
+  background: #fff;
+  z-index: 9999;
   pointer-events: none;
+}
+
+body.ios-safe-area {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Safe Area Support para Android */
+body.android-safe-area {
+  padding-top: 0px !important;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px) !important;
+  background-color: var(--safe-area-color, #fff);
 }
 
 /* Barra de navegación (navigation bar) para Android */
