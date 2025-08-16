@@ -37,8 +37,8 @@ export class CatalogComponent implements OnInit {
       // Navbar (108px) + Android safe area dinámico + pequeño margen (8px)
       return 'calc(108px + max(env(safe-area-inset-top, 0px), 32px) + 8px)';
     } else if (isIOS) {
-      // Navbar (108px) + iOS safe area dinámico + pequeño margen
-      return 'calc(116px + env(safe-area-inset-top, 0px))';
+      // Navbar (108px) + iOS safe area dinámico (sin margen extra)
+      return 'calc(108px + env(safe-area-inset-top, 0px))';
     }
 
     // Para desktop, navbar + pequeño margen
