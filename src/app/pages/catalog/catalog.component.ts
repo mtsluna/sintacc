@@ -36,7 +36,7 @@ export class CatalogComponent implements OnInit {
     if (isAndroid) {
       return 'calc(108px + max(env(safe-area-inset-top, 0px), 32px) + 8px)';
     } else if (isIOS) {
-      return 'calc(108px + env(safe-area-inset-top, 0px))';
+      return 'calc(88px + env(safe-area-inset-top, 0px))';
     }
 
     return '116px';
