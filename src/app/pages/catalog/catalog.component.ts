@@ -34,12 +34,15 @@ export class CatalogComponent implements OnInit {
     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
     if (isAndroid) {
-      return '168px';
+      // Navbar (108px) + Android safe area (32px) + pequeño margen (8px)
+      return '148px';
     } else if (isIOS) {
-      return 'calc(120px + env(safe-area-inset-top, 0px) + 16px)';
+      // Navbar (108px) + iOS safe area dinámico + pequeño margen
+      return 'calc(116px + env(safe-area-inset-top, 0px))';
     }
 
-    return '136px';
+    // Para desktop, navbar + pequeño margen
+    return '116px';
   }
 
   async ngOnInit(): Promise<void> {
