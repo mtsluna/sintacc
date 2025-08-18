@@ -1,11 +1,13 @@
 import {Component, inject, Input} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgClass} from '@angular/common';
+import {NgClass, NgStyle} from '@angular/common';
+import {SafeAreaService} from '../../../services/safe-area/safe-area.service';
 
 @Component({
   selector: 'app-next-button',
   imports: [
-    NgClass
+    NgClass,
+    NgStyle
   ],
   templateUrl: './next-button.component.html',
   standalone: true,
@@ -27,5 +29,11 @@ export class NextButtonComponent {
 
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  safeAreaService = inject(SafeAreaService);
 
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
+  }
+
+  protected readonly window = window;
 }
