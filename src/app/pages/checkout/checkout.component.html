@@ -123,7 +123,7 @@
   <app-back-button></app-back-button>
 
   @if (isLoading) {
-    <div class="fixed bottom-4 left-4 right-4 w-auto">
+    <div [ngClass]="getButtonPositionClass()" class="fixed left-4 right-4">
       <div class="h-13 bg-gray-200 rounded animate-pulse"></div>
     </div>
   } @else {
