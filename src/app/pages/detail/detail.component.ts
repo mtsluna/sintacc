@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {Product} from '../../interfaces/product';
-import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
+import {CurrencyPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BackButtonComponent} from '../../shared/components/back-button/back-button.component';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
@@ -8,6 +8,7 @@ import {RecommendationComponent} from '../../shared/sections/recommendation/reco
 import {ProductService} from '../../services/product/product.service';
 import {firstValueFrom} from 'rxjs';
 import {CartService} from '../../services/cart/cart.service';
+import {SafeAreaService} from '../../services/safe-area/safe-area.service';
 
 @Component({
   selector: 'app-detail',
@@ -16,7 +17,8 @@ import {CartService} from '../../services/cart/cart.service';
     CurrencyPipe,
     BackButtonComponent,
     NextButtonComponent,
-    RecommendationComponent
+    RecommendationComponent,
+    NgClass
   ],
   templateUrl: './detail.component.html',
   standalone: true,
@@ -30,6 +32,7 @@ export class DetailComponent implements OnInit {
   route = inject(ActivatedRoute);
   productService = inject(ProductService);
   cartService = inject(CartService);
+  safeAreaService = inject(SafeAreaService);
 
   constructor() {}
 
@@ -50,6 +53,10 @@ export class DetailComponent implements OnInit {
 
       this.loading = false;
     }
+  }
+
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
   }
 
 }

@@ -7,6 +7,7 @@ import {NextButtonComponent} from '../../../shared/components/next-button/next-b
 import {NgClass} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AddressService} from '../../../services/address/address.service';
+import {SafeAreaService} from '../../../services/safe-area/safe-area.service';
 import {firstValueFrom} from 'rxjs';
 
 @Component({
@@ -30,6 +31,7 @@ export class AddressComponent implements OnInit {
   addressService = inject(AddressService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  safeAreaService = inject(SafeAreaService);
 
   selectedAddress: Address | undefined;
 
@@ -60,5 +62,9 @@ export class AddressComponent implements OnInit {
       }
     });
     window.scrollTo(0, 0);
+  }
+
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
   }
 }

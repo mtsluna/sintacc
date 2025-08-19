@@ -1,13 +1,12 @@
 import {Component, inject, Input} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgClass, NgStyle} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {SafeAreaService} from '../../../services/safe-area/safe-area.service';
 
 @Component({
   selector: 'app-next-button',
   imports: [
-    NgClass,
-    NgStyle
+    NgClass
   ],
   templateUrl: './next-button.component.html',
   standalone: true,

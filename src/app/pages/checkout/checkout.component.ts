@@ -5,11 +5,12 @@ import {NgIcon, provideIcons} from '@ng-icons/core';
 import {matLocationOnRound, matMotorcycleRound, matNotesRound} from '@ng-icons/material-icons/round';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Checkout} from '../../interfaces/checkout';
-import {CurrencyPipe, JsonPipe} from '@angular/common';
+import {CurrencyPipe, JsonPipe, NgClass, NgStyle} from '@angular/common';
 import {Address} from '../../interfaces/address';
 import {CheckoutService} from '../../services/checkout/checkout.service';
 import {CartService} from '../../services/cart/cart.service';
 import {AddressService} from '../../services/address/address.service';
+import {SafeAreaService} from '../../services/safe-area/safe-area.service';
 import {merge} from 'rxjs/internal/operators/merge';
 import {firstValueFrom} from 'rxjs';
 
@@ -20,7 +21,9 @@ import {firstValueFrom} from 'rxjs';
     NextButtonComponent,
     NgIcon,
     CurrencyPipe,
-    JsonPipe
+    JsonPipe,
+    NgStyle,
+    NgClass
   ],
   providers: [
     provideIcons({
@@ -42,6 +45,7 @@ export class CheckoutComponent implements OnInit {
   checkoutService = inject(CheckoutService);
   cartService = inject(CartService);
   addressService = inject(AddressService);
+  safeAreaService = inject(SafeAreaService);
   route = inject(ActivatedRoute);
   router = inject(Router);
 
@@ -89,4 +93,7 @@ export class CheckoutComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
+  }
 }

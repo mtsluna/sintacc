@@ -6,6 +6,8 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {AddressService} from '../../../../services/address/address.service';
 import {Address} from '../../../../interfaces/address';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SafeAreaService} from '../../../../services/safe-area/safe-area.service';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-edit',
@@ -14,7 +16,8 @@ import {ActivatedRoute, Router} from '@angular/router';
     NextButtonComponent,
     ReactiveFormsModule,
     MapMarker,
-    GoogleMap
+    GoogleMap,
+    NgClass
   ],
   templateUrl: './address-edit.component.html',
   styleUrl: './address-edit.component.scss'
@@ -30,8 +33,9 @@ export class AddressEditComponent implements AfterViewInit {
   })
 
   addressService = inject(AddressService);
-  activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+  safeAreaService = inject(SafeAreaService);
 
   center: google.maps.LatLngLiteral = {
     lat: this.formGroup.get('latitude')?.value === 0
@@ -124,5 +128,9 @@ export class AddressEditComponent implements AfterViewInit {
       }
       : () => {
       }
+  }
+
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
   }
 }

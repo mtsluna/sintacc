@@ -26,5 +26,5 @@
     </div>
   </div>
 
-  <app-next-button [action]="navigateToAddAddress" class="fixed bottom-8 left-4 w-full" title="Agregar Dirección" subtitle="Enviamos a donde vos quieras"></app-next-button>
+  <app-next-button [action]="navigateToAddAddress" [ngClass]="getButtonPositionClass()" class="fixed left-4 w-full" title="Agregar Dirección" subtitle="Enviamos a donde vos quieras"></app-next-button>
 </div>

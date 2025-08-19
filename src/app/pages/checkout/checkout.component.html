@@ -127,8 +127,8 @@
       <div class="h-13 bg-gray-200 rounded animate-pulse"></div>
     </div>
   } @else {
-    <app-next-button [disabled]="selectedAddress == undefined || checkout == undefined" class="fixed bottom-8 left-4 w-full" [action]="navigateToMercadoPago(checkout?.payment_link)"
-                     title="Ir a Mercadopago" subtitle="Estas a punto de terminar!"></app-next-button>
+    <app-next-button [disabled]="selectedAddress == undefined || checkout == undefined" [ngClass]="getButtonPositionClass()" class="fixed left-4 w-full" [action]="navigateToMercadoPago(checkout?.payment_link)"
+                     title="Pagar con Mercado Pago" subtitle="Falta muy poco para que sea tuyo!"></app-next-button>
   }
 
 </div>

@@ -5,14 +5,18 @@ import {BackButtonComponent} from '../../shared/components/back-button/back-butt
 import {CartService} from '../../services/cart/cart.service';
 import {NextButtonComponent} from "../../shared/components/next-button/next-button.component";
 import {ActivatedRoute, Router} from '@angular/router';
+import {SafeAreaService} from '../../services/safe-area/safe-area.service';
+import {NgClass, NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-    imports: [
-        CardRowComponent,
-        BackButtonComponent,
-        NextButtonComponent
-    ],
+  imports: [
+    CardRowComponent,
+    BackButtonComponent,
+    NextButtonComponent,
+    NgClass,
+    NgStyle
+  ],
   templateUrl: './cart.component.html',
   standalone: true,
   styleUrl: './cart.component.scss'
@@ -22,6 +26,7 @@ export class CartComponent implements OnInit {
   cartService = inject(CartService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  safeAreaService = inject(SafeAreaService);
 
   products: Array<Product>;
   loadingProducts: boolean = true;
@@ -67,4 +72,11 @@ export class CartComponent implements OnInit {
     this.products = this.products.filter(p => p.id !== product.id);
   }
 
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
+  }
+
+  getButtonStyles(): { [key: string]: string } {
+    return this.safeAreaService.getBottomButtonStyles();
+  }
 }

@@ -6,15 +6,17 @@ import {
   matCheckCircleOutlineRound,
   matCancelRound
 } from '@ng-icons/material-icons/round';
-import {NgClass} from '@angular/common';
+import {NgClass, NgStyle} from '@angular/common';
 import {DOCUMENT} from '@angular/common';
+import {SafeAreaService} from '../../services/safe-area/safe-area.service';
 
 @Component({
   selector: 'app-confirmation',
   imports: [
     NextButtonComponent,
     NgIcon,
-    NgClass
+    NgClass,
+    NgStyle
   ],
   providers: [
     provideIcons({
@@ -30,6 +32,8 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   cart!: string | null
   isLoading = false;
   route = inject(ActivatedRoute);
+
+  safeAreaService = inject(SafeAreaService);
 
   constructor(
     private router: Router,
@@ -55,5 +59,13 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   async goToCatalog() {
     await this.router.navigate(['/']);
     window.scrollTo(0, 0);
+  }
+
+  getButtonPositionClass(): string {
+    return this.safeAreaService.getBottomButtonPosition();
+  }
+
+  getButtonStyles(): { [key: string]: string } {
+    return this.safeAreaService.getBottomButtonStyles();
   }
 }
