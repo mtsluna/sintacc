@@ -7,6 +7,7 @@ import {async, firstValueFrom} from 'rxjs';
 import {ProductService} from '../../services/product/product.service';
 import {CategoryService} from '../../services/category/category.service';
 import {FooterComponent} from '../../shared/components/footer/footer.component';
+import {FirebaseAuthService} from '../../services/firebase-auth.service';
 
 @Component({
   selector: 'app-catalog',
@@ -26,6 +27,11 @@ export class CatalogComponent implements OnInit {
   route = inject(ActivatedRoute);
   productService = inject(ProductService);
   categoryService = inject(CategoryService);
+  firebaseAuthService = inject(FirebaseAuthService);
+
+  get isUserLoggedIn(): boolean {
+    return this.firebaseAuthService.currentUser !== null;
+  }
 
   constructor() {}
 

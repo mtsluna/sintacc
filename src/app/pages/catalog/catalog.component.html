@@ -33,5 +33,7 @@
     }
   }
 </div>
-<app-next-button [action]="navigateToCart" class="w-full" title="Ir al carrito" subtitle="Tu carrito esta listo!"></app-next-button>
+@if (isUserLoggedIn) {
+  <app-next-button [action]="navigateToCart" class="w-full" title="Ir al carrito" subtitle="Tu carrito esta listo!"></app-next-button>
+}
 <app-footer></app-footer>

@@ -4,6 +4,7 @@ import {CurrencyPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {SpinnerComponent} from '../spinner/spinner.component';
+import {FirebaseAuthService} from '../../../services/firebase-auth.service';
 
 @Component({
   selector: 'app-card',
@@ -20,11 +21,17 @@ export class CardComponent {
 
   @Input() product: Product | undefined;
   loading = false;
+  showLoginModal = false;
 
   router = inject(Router);
   cartService = inject(CartService);
+  firebaseAuthService = inject(FirebaseAuthService);
 
   protected readonly console = console;
+
+  get isUserLoggedIn(): boolean {
+    return this.firebaseAuthService.currentUser !== null;
+  }
 
   async navigateToDetail() {
     await this.router.navigate(['/detail', this.product?.id], {
