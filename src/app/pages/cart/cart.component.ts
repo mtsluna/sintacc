@@ -75,8 +75,4 @@ export class CartComponent implements OnInit {
   getButtonPositionClass(): string {
     return this.safeAreaService.getBottomButtonPosition();
   }
-
-  getButtonStyles(): { [key: string]: string } {
-    return this.safeAreaService.getBottomButtonStyles();
-  }
 }
