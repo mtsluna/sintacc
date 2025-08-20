@@ -29,7 +29,7 @@ body.ios-safe-area::before {
   left: 0;
   width: 100vw;
   height: env(safe-area-inset-top, 0px);
-  background: #fff;
+  background-color: var(--safe-area-color, #fff);
   z-index: 9999;
   pointer-events: none;
 }
@@ -42,7 +42,7 @@ body.ios-safe-area {
 body.android-safe-area {
   padding-top: 0px !important;
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px) !important;
-  background-color: var(--safe-area-color, #fff);
+  /*background-color: var(--safe-area-color, #fff);*/
 }
 
 /* Barra de navegación (navigation bar) para Android */
