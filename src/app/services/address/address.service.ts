@@ -29,4 +29,8 @@ export class AddressService {
   getSelectedAddress(userId: string) {
     return this.httpClient.get<Address>(`${API_URL}/api/addresses/user/${userId}/selected`);
   }
+
+  verifyAddress(address: { latitude: number, longitude: number, address: string }) {
+    return this.httpClient.post<{ valid: boolean }>(`${API_URL}/api/addresses/verify`, address);
+  }
 }

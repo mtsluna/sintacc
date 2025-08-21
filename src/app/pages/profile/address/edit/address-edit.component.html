@@ -34,7 +34,23 @@
     <!-- Reference Input -->
     <label class="block mb-2 font-medium">Instrucciones</label>
     <input formControlName="reference" type="text" class="w-full p-2 border rounded mb-4 placeholder:text-gray-500 focus:outline-black" placeholder="Ej: Puerta negra">
+
+    <!-- Address verification banner -->
+    @if (isVerifying()) {
+      <div class="mb-4 flex items-center justify-center py-2">
+        <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 mr-2"></div>
+        <span class="text-sm text-gray-600">Verificando cobertura...</span>
+      </div>
+    }
+
+    @if (isAddressVerified() === false) {
+      <div class="mb-4">
+        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">
+          <div>Lo sentimos, no llegamos con nuestros envios a tu dirección. En caso de necesitar un envio especial, podes enviarnos un<a href="https://wa.me/5492614600070?text=Hola, quiero hacer un pedido!" class="underline ml-1">whatsapp</a></div>
+        </span>
+      </div>
+    }
   </div>
 
-  <app-next-button [disabled]="formGroup.invalid" [action]="save()" [ngClass]="getButtonPositionClass()" class="fixed left-4 w-full" title="Guardar" subtitle="Estas a un paso de crearla"></app-next-button>
+  <app-next-button [disabled]="formGroup.invalid || isAddressVerified() === false || isVerifying()" [action]="save()" [ngClass]="getButtonPositionClass()" class="fixed left-4 w-full" title="Guardar" subtitle="Estas a un paso de crearla"></app-next-button>
 </div>

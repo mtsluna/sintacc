@@ -49,6 +49,8 @@ export class AddressEditComponent implements AfterViewInit {
   isAddressValid = signal(false);
   selectedAddress = signal<string | null>(null);
   isGoogleReady = signal(false);
+  isAddressVerified = signal<boolean | null>(null);
+  isVerifying = signal(false);
 
   ngAfterViewInit() {
     this.formGroup.setErrors({addressMismatch: true});
@@ -83,12 +85,14 @@ export class AddressEditComponent implements AfterViewInit {
               lat: +(this.formGroup.get('latitude')?.value || 0),
               lng: +(this.formGroup.get('longitude')?.value || 0)
             };
+
+            // Verificar la dirección
+            this.verifyAddress();
           } else {
             this.selectedAddress.set(null);
             this.isAddressValid.set(false);
+            this.isAddressVerified.set(null);
           }
-
-
         });
       }
     }, 100);
@@ -100,11 +104,32 @@ export class AddressEditComponent implements AfterViewInit {
     })
   }
 
-  save() {
+  verifyAddress() {
+    const formValue = this.formGroup.getRawValue();
+    if (formValue.latitude && formValue.longitude && formValue.address) {
+      this.isVerifying.set(true);
+      this.addressService.verifyAddress({
+        latitude: formValue.latitude,
+        longitude: formValue.longitude,
+        address: formValue.address
+      }).subscribe({
+        next: (result) => {
+          this.isAddressVerified.set(result.valid);
+          this.isVerifying.set(false);
+        },
+        error: (err) => {
+          console.error('Error verifying address:', err);
+          this.isAddressVerified.set(false);
+          this.isVerifying.set(false);
+        }
+      });
+    }
+  }
 
+  save() {
     const userId = localStorage.getItem('userId');
 
-    return this.isAddressValid() && this.formGroup.valid
+    return this.isAddressValid() && this.formGroup.valid && this.isAddressVerified() === true
       ? () => {
         this.addressService.postAddress({
           ...this.formGroup.getRawValue(),
