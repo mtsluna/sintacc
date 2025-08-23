@@ -174,10 +174,12 @@ export class AddressEditComponent implements AfterViewInit {
 
       // Solo hacer scroll si el elemento no está visible o está muy cerca del borde
       const viewportTop = window.scrollY;
-      const viewportBottom = viewportTop + (window.visualViewport?.height || window.innerHeight);
+      // Usar siempre la altura completa de la ventana, no la reducida por el teclado
+      const viewportHeight = window.innerHeight;
+      const viewportBottom = viewportTop + viewportHeight;
       const elementBottom = elementTop + element.offsetHeight;
 
-      // Verificar si el elemento ya está visible en el viewport
+      // Verificar si el elemento ya está visible en el viewport completo
       const isElementVisible = elementTop >= viewportTop + offset &&
         elementBottom <= viewportBottom - 50;
 
