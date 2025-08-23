@@ -161,15 +161,16 @@ export class AddressEditComponent implements AfterViewInit {
 
   scrollToInput(element: HTMLElement) {
     setTimeout(() => {
-      const elementRect = element.getBoundingClientRect();
+      // posición absoluta del elemento en la página
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
 
-      const scrollAmount = elementRect.top - 100;
+      // margen opcional (por ej. 0 para que quede arriba del todo)
+      const offset = 0;
 
-      window.scrollBy({
-        top: scrollAmount,
+      window.scrollTo({
+        top: elementTop - offset,
         behavior: 'smooth'
       });
-
     }, 200);
   }
 }
