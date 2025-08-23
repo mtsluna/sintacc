@@ -169,25 +169,31 @@ export class AddressEditComponent implements AfterViewInit {
       // posición absoluta del elemento en la página
       const elementTop = element.getBoundingClientRect().top + window.scrollY;
 
-      // Si el teclado ya está abierto, usar un offset menor para evitar scroll innecesario
-      const offset = isKeyboardOpen ? 20 : 100;
-
-      // Solo hacer scroll si el elemento no está visible o está muy cerca del borde
-      const viewportTop = window.scrollY;
-      // Usar siempre la altura completa de la ventana, no la reducida por el teclado
-      const viewportHeight = window.innerHeight;
-      const viewportBottom = viewportTop + viewportHeight;
-      const elementBottom = elementTop + element.offsetHeight;
-
-      // Verificar si el elemento ya está visible en el viewport completo
-      const isElementVisible = elementTop >= viewportTop + offset &&
-        elementBottom <= viewportBottom - 50;
-
-      if (!isElementVisible) {
+      if (isKeyboardOpen) {
+        // Si el teclado ya está abierto, siempre hacer scroll con offset mínimo
+        // para evitar que el navegador haga su propio scroll hacia arriba
+        const offset = 20;
         window.scrollTo({
           top: elementTop - offset,
           behavior: 'smooth'
         });
+      } else {
+        // Si el teclado está cerrado, usar la lógica original con verificación de visibilidad
+        const offset = 100;
+        const viewportTop = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const viewportBottom = viewportTop + viewportHeight;
+        const elementBottom = elementTop + element.offsetHeight;
+
+        const isElementVisible = elementTop >= viewportTop + offset &&
+          elementBottom <= viewportBottom - 50;
+
+        if (!isElementVisible) {
+          window.scrollTo({
+            top: elementTop - offset,
+            behavior: 'smooth'
+          });
+        }
       }
     }, 200);
   }
