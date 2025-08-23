@@ -160,16 +160,38 @@ export class AddressEditComponent implements AfterViewInit {
   }
 
   scrollToInput(element: HTMLElement) {
+    // Usar setTimeout más largo para WebView
     setTimeout(() => {
+      // Intentar múltiples métodos para asegurar compatibilidad con WebView
       const elementRect = element.getBoundingClientRect();
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      const desiredPosition = elementRect.top + scrollTop - 20;
+      // Posición deseada con más margen para WebView
+      const desiredPosition = elementRect.top + scrollTop - 60;
 
+      // Método 1: window.scrollTo (para navegadores)
       window.scrollTo({
         top: Math.max(0, desiredPosition),
         behavior: 'smooth'
       });
-    }, 100);
+
+      // Método 2: scrollIntoView como respaldo para WebView
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+
+        // Ajuste adicional después del scrollIntoView
+        setTimeout(() => {
+          const newScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          if (newScrollTop > 60) {
+            window.scrollBy(0, -40);
+          }
+        }, 200);
+      }, 150);
+
+    }, 200);
   }
 }
