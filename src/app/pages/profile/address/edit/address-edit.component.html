@@ -7,7 +7,7 @@
 
     <!-- Google Places Autocomplete Input -->
     <label class="block mb-2 font-medium">Dirección</label>
-    <input formControlName="address" #addressInput id="autocomplete" type="text" class="w-full p-2 border rounded mb-2 placeholder:text-gray-500 focus:outline-black" placeholder="Busca tu dirección" autocomplete="off">
+    <input #address (focus)="scrollToInput(address)" formControlName="address" #addressInput id="autocomplete" type="text" class="w-full p-2 border rounded mb-2 placeholder:text-gray-500 focus:outline-black" placeholder="Busca tu dirección" autocomplete="off">
     @if (formGroup.get('address')?.hasError('addressMismatch')) {
       <div class="text-red-500 text-sm font-light pb-4">
         Ingrese una dirección válida.
@@ -29,11 +29,11 @@
 
     <!-- Address Detail Input -->
     <label class="block mb-2 font-medium">Piso / Departamento</label>
-    <input formControlName="detail" type="text" class="w-full p-2 border rounded mb-4 placeholder:text-gray-500 focus:outline-black" placeholder="Ej: Piso 2, Depto B">
+    <input #detail (focus)="scrollToInput(detail)" formControlName="detail" type="text" class="w-full p-2 border rounded mb-4 placeholder:text-gray-500 focus:outline-black" placeholder="Ej: Piso 2, Depto B">
 
     <!-- Reference Input -->
     <label class="block mb-2 font-medium">Instrucciones</label>
-    <input formControlName="reference" type="text" class="w-full p-2 border rounded mb-4 placeholder:text-gray-500 focus:outline-black" placeholder="Ej: Puerta negra">
+    <input #reference (focus)="scrollToInput(reference)" formControlName="reference" type="text" class="w-full p-2 border rounded mb-4 placeholder:text-gray-500 focus:outline-black" placeholder="Ej: Puerta negra">
 
     <!-- Address verification banner -->
     @if (isVerifying()) {

@@ -158,4 +158,11 @@ export class AddressEditComponent implements AfterViewInit {
   getButtonPositionClass(): string {
     return this.safeAreaService.getBottomButtonPosition();
   }
+
+  scrollToInput(element: HTMLElement) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    })
+  }
 }

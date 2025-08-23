@@ -15,7 +15,7 @@
           <div (click)="setSelectedAddress(address)"
                [class.selected]="address.selected"
                class="border border-stone-400 p-4 rounded cursor-pointer"
-               [ngClass]="address.selected ? 'border-stone-900': 'border-stone-400'"
+               [ngClass]="address.selected ? 'border-stone-900 outline-2': 'border-stone-400'"
           >
             <h2 class="text-lg font-medium line-clamp-2 w-full">{{ address.address }}</h2>
             <p class="text-sm text-gray-600 line-clamp-2 w-full">{{ address.detail }}</p>
