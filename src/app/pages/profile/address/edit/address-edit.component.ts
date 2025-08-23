@@ -166,8 +166,9 @@ export class AddressEditComponent implements AfterViewInit {
       const elementRect = element.getBoundingClientRect();
 
       // Calcular cuánto necesitamos hacer scroll hacia arriba
-      // para que el elemento quede en la parte superior con margen
-      const scrollAmount = elementRect.top - 60;
+      // para que el elemento quede en la parte superior con más margen
+      // considerando el botón flotante en la parte inferior
+      const scrollAmount = elementRect.top - 100;
 
       // Usar scrollBy que funciona mejor en WebView
       window.scrollBy({
