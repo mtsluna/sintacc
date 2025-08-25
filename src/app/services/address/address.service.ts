@@ -31,6 +31,6 @@ export class AddressService {
   }
 
   verifyAddress(address: { latitude: number, longitude: number, address: string }) {
-    return this.httpClient.post<{ valid: boolean }>(`${API_URL}/api/addresses/verify`, address);
+    return this.httpClient.post<{ verified: boolean }>(`${API_URL}/api/addresses/verify`, address);
   }
 }

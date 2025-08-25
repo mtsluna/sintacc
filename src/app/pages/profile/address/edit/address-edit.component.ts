@@ -114,7 +114,9 @@ export class AddressEditComponent implements AfterViewInit {
         address: formValue.address
       }).subscribe({
         next: (result) => {
-          this.isAddressVerified.set(result.valid);
+          console.log(result)
+
+          this.isAddressVerified.set(result.verified);
           this.isVerifying.set(false);
         },
         error: (err) => {
