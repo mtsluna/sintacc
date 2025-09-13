@@ -22,5 +22,17 @@ export class CategoryService {
       map(categories => categories.filter(cat => !cat.active))
     );
   }
-}
 
+  updateCategoryImage(categoryId: string, imageUrl: string) {
+    return this.httpClient.patch(`${API_URL}/api/categories/${categoryId}`, {
+      image: imageUrl
+    }).toPromise();
+  }
+
+  uploadCategoryImage(categoryId: string, image: File) {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('categoryId', categoryId);
+    return this.httpClient.post(`${API_URL}/api/categories/upload-image`, formData);
+  }
+}

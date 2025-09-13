@@ -1,0 +1,29 @@
+<div class="p-6 max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Administrar Imágenes de Categorías</h1>
+
+  @if (categories && categories.length > 0) {
+    @for (category of categories; track category) {
+      <div class="border rounded p-4 mb-4 flex items-center gap-4">
+        <div class="flex-1">
+          <div class="font-bold">{{ category.name }}</div>
+          <div class="text-sm text-gray-500">ID: {{ category.id }}</div>
+        </div>
+        <div>
+          <input type="text" placeholder="Pega la URL de la imagen" class="mt-2 w-40 px-2 py-1 border rounded text-xs" [value]="category.image || ''" (input)="onImageInput($event, category)" />
+          @if (category.image) {
+            <img [src]="category.image" alt="Previsualización" class="w-20 h-20 object-cover rounded mt-2" />
+          }
+        </div>
+        <button (click)="uploadImage(category)" [disabled]="category.uploading || !category.image" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50">
+          @if (category.uploading) {
+            <span class="inline-block w-5 h-5 border-2 border-t-2 border-gray-200 border-t-blue-600 rounded-full animate-spin"></span>
+          } @else {
+            Subir Imagen
+          }
+        </button>
+      </div>
+    }
+  } @else {
+    <div class="text-gray-500 text-center">Cargando categorías...</div>
+  }
+</div>

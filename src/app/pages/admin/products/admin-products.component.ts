@@ -8,13 +8,13 @@ import { ProductService } from '../../../services/product/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-categories',
+  selector: 'app-admin-products',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss']
+  templateUrl: './admin-products.component.html',
+  styleUrls: ['./admin-products.component.scss']
 })
-export class CategoriesComponent {
+export class AdminProductsComponent {
   categories = signal<Category[]>([]);
   selectedCategoryId = signal<string>('');
   products = signal<(Product & { selectedFile?: File | null })[]>([]);
@@ -121,7 +121,6 @@ export class CategoriesComponent {
     }
     this.productService.uploadProductImage(product.id, fileToUpload).subscribe({
       next: () => {
-        //this.fetchProducts();
         product.uploading = false;
       },
       error: () => {

@@ -5,11 +5,12 @@ import {DetailComponent} from './pages/detail/detail.component';
 import {AddressComponent} from './pages/profile/address/address.component';
 import {CheckoutComponent} from './pages/checkout/checkout.component';
 import {AddressEditComponent} from './pages/profile/address/edit/address-edit.component';
-import { CategoriesComponent } from './pages/admin/categories/categories.component';
 import {PrivacyPolicyComponent} from './pages/privacy-policy/privacy-policy.component';
 import {ConfirmationComponent} from './pages/confirmation/confirmation.component';
 import {OrdersComponent} from './pages/profile/orders/orders.component';
 import { CategoryListComponent } from './shared/components/category-list/category-list.component';
+import { AdminProductsComponent } from './pages/admin/products/admin-products.component';
+import { AdminCategoriesComponent } from './pages/admin/categories/admin-categories.component';
 
 export const routes: Routes = [
   {
@@ -49,8 +50,12 @@ export const routes: Routes = [
     component: PrivacyPolicyComponent
   },
   {
+    path: 'admin/products',
+    component: AdminProductsComponent
+  },
+  {
     path: 'admin/categories',
-    component: CategoriesComponent
+    component: AdminCategoriesComponent
   },
   {
     path: 'confirmation',
