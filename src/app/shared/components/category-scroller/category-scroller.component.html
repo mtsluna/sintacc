@@ -1,0 +1,34 @@
+<div class="w-full">
+  @if (categories?.length) {
+    <div class="flex flex-row gap-2 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+      @for (category of displayCategories; track category.name) {
+        <div class="flex flex-col items-center gap-y-1 min-w-18 max-w-18 bg-white cursor-pointer" (click)="onCategoryClick(category)">
+          @if (category.image) {
+            <img [src]="category.image" alt="{{ category.name }}" class="w-14 h-14 object-cover rounded-lg" />
+          } @else {
+            <div class="w-14 h-14 bg-gray-200 flex items-center justify-center rounded-lg"></div>
+          }
+          <div class="text-sm font-medium text-center text-gray-900 w-14 h-10 leading-tight overflow-hidden line-clamp-2 flex items-center justify-center">{{ category.name }}</div>
+        </div>
+      }
+      <div class="flex flex-col items-center gap-y-1 min-w-24 max-w-24 bg-gray-100 text-black cursor-pointer" (click)="onViewAllClick()">
+        <div class="w-14 h-14 bg-gray-200 flex items-center justify-center rounded-lg"></div>
+        <div class="text-sm font-medium text-center w-14 h-10 leading-tight overflow-hidden line-clamp-2 flex items-center justify-center">Ver todas</div>
+      </div>
+    </div>
+  } @else {
+    <div class="flex flex-row gap-2 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+      @for (skeleton of [0,1,2,3,4,5,6]; track skeleton) {
+        <div class="flex flex-col items-center gap-y-3 min-w-18 max-w-18 bg-white">
+          <div class="w-14 h-14 bg-gray-200 rounded-lg animate-pulse"></div>
+          <div class="w-14 h-4 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+      }
+      <div class="flex flex-col items-center gap-y-1 min-w-24 max-w-24 bg-gray-100">
+        <div class="w-14 h-14 bg-gray-200 rounded-lg animate-pulse"></div>
+        <div class="w-14 h-4 bg-gray-200 rounded animate-pulse mb-1"></div>
+        <div class="w-14 h-4 bg-gray-200 rounded animate-pulse"></div>
+      </div>
+    </div>
+  }
+</div>

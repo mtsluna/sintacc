@@ -8,6 +8,8 @@ import {ProductService} from '../../services/product/product.service';
 import {CategoryService} from '../../services/category/category.service';
 import {FooterComponent} from '../../shared/components/footer/footer.component';
 import {FirebaseAuthService} from '../../services/firebase-auth.service';
+import { CategoryScrollerComponent } from '../../shared/components/category-scroller/category-scroller.component';
+import { CategoryListComponent } from '../../shared/components/category-list/category-list.component';
 
 @Component({
   selector: 'app-catalog',
@@ -15,6 +17,9 @@ import {FirebaseAuthService} from '../../services/firebase-auth.service';
     CardComponent,
     NextButtonComponent,
     FooterComponent,
+    CategoryScrollerComponent,
+    CategoryListComponent,
+    CategoryListComponent,
   ],
   templateUrl: './catalog.component.html',
   standalone: true,
@@ -28,6 +33,9 @@ export class CatalogComponent implements OnInit {
   productService = inject(ProductService);
   categoryService = inject(CategoryService);
   firebaseAuthService = inject(FirebaseAuthService);
+
+  showCategoryList: boolean = false;
+  categoryListLoading: boolean = false;
 
   get isUserLoggedIn(): boolean {
     return this.firebaseAuthService.currentUser !== null;
@@ -98,4 +106,7 @@ export class CatalogComponent implements OnInit {
     return /^\/category\/[^/]+$/.test(currentRoute) || !!q;
   }
 
+  onViewAllCategories() {
+    this.router.navigate(['/categories']);
+  }
 }

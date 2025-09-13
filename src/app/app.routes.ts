@@ -9,6 +9,7 @@ import { CategoriesComponent } from './pages/admin/categories/categories.compone
 import {PrivacyPolicyComponent} from './pages/privacy-policy/privacy-policy.component';
 import {ConfirmationComponent} from './pages/confirmation/confirmation.component';
 import {OrdersComponent} from './pages/profile/orders/orders.component';
+import { CategoryListComponent } from './shared/components/category-list/category-list.component';
 
 export const routes: Routes = [
   {
@@ -58,5 +59,9 @@ export const routes: Routes = [
   {
     path: 'profile/orders',
     component: OrdersComponent
+  },
+  {
+    path: 'categories',
+    component: CategoryListComponent
   }
 ];

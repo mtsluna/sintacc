@@ -1,4 +1,10 @@
-<div class="relative p-4 flex flex-col gap-8 content-safe-area">
+<div class="relative p-4 flex flex-col gap-4 content-safe-area">
+  @if (!isOnCategoryRoute()) {
+    <app-category-scroller [categories]="categories"
+      (categorySelected)="navigateToCategory($event)"
+      (viewAll)="onViewAllCategories()"
+    ></app-category-scroller>
+  }
   @if (categories?.length) {
     @for (category of categories; track category.name) {
       <div>

@@ -38,7 +38,7 @@ import {NgStyle} from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
 
-  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/profile/orders', '/admin/categories', 'privacy-policy', 'confirmation'];
+  hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/profile/orders', '/admin/categories', 'privacy-policy', 'confirmation', 'categories'];
   destroyRef: DestroyRef = inject(DestroyRef);
   search = new FormControl('');
   router = inject(Router);
