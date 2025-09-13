@@ -1,38 +1,36 @@
 import { Component, EventEmitter, inject, OnInit } from '@angular/core';
 import { Category } from '../../../interfaces/category';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { matCloseRound } from '@ng-icons/material-icons/round';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import {CategoryService} from '../../../services/category/category.service';
-import {BackButtonComponent} from '../back-button/back-button.component';
+import { CategoryService } from '../../../services/category/category.service';
+import { BackButtonComponent } from '../back-button/back-button.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
-  imports: [NgIcon, BackButtonComponent],
-  providers: [
-    provideIcons({ matCloseRound })
-  ],
+  imports: [BackButtonComponent],
   standalone: true
 })
 export class CategoryListComponent implements OnInit {
-  categories: Category[] | undefined = [];
+  categories: Category[] = [];
   loading = true;
-  categorySelected = new EventEmitter<Category>();
 
   private location = inject(Location);
+  private router = inject(Router);
   private categoryService = inject(CategoryService);
 
   async ngOnInit() {
     try {
-      this.categories = await this.categoryService.getCategories().toPromise();
+      this.categories = (await firstValueFrom(this.categoryService.getCategories())) ?? [];
     } finally {
       this.loading = false;
     }
   }
 
-  onCategoryClick(category: Category) {
-    this.categorySelected.emit(category);
+  async onCategoryClick(category: Category) {
+    await this.router.navigate(['/category', category.url]);
+    window.scrollTo(0, 0);
   }
 
   onClose() {
