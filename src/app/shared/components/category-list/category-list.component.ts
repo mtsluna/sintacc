@@ -5,11 +5,18 @@ import { Location } from '@angular/common';
 import { CategoryService } from '../../../services/category/category.service';
 import { BackButtonComponent } from '../back-button/back-button.component';
 import { firstValueFrom } from 'rxjs';
+import {NgIcon, provideIcons} from '@ng-icons/core';
+import {matCategoryRound} from '@ng-icons/material-icons/round';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
-  imports: [BackButtonComponent],
+  imports: [BackButtonComponent, NgIcon],
+  providers: [
+    provideIcons({
+      matCategoryRound
+    })
+  ],
   standalone: true
 })
 export class CategoryListComponent implements OnInit {

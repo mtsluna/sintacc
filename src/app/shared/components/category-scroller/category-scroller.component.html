@@ -6,13 +6,17 @@
           @if (category.image) {
             <img [src]="category.image" alt="{{ category.name }}" class="w-14 h-14 object-cover rounded-lg" />
           } @else {
-            <div class="w-14 h-14 bg-gray-200 flex items-center justify-center rounded-lg"></div>
+            <div class="w-14 h-14 bg-gray-100 flex items-center justify-center c rounded-lg">
+              <ng-icon size="24" name="matCategoryRound"></ng-icon>
+            </div>
           }
           <div class="text-xs font-medium text-center text-gray-900 w-18 h-10 leading-tight overflow-hidden line-clamp-2 flex items-center justify-center">{{ category.name }}</div>
         </div>
       }
       <div class="flex flex-col items-center gap-y-1 min-w-24 max-w-24 text-black cursor-pointer" (click)="onViewAllClick()">
-        <div class="w-14 h-14 bg-gray-200 flex items-center justify-center rounded-lg"></div>
+        <div class="w-14 h-14 bg-gray-100 flex items-center justify-center rounded-lg">
+          <ng-icon size="24" name="matChevronRightRound"></ng-icon>
+        </div>
         <div class="text-sm font-medium text-center w-14 h-10 leading-tight overflow-hidden line-clamp-2 flex items-center justify-center">Ver todas</div>
       </div>
     </div>

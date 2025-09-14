@@ -15,7 +15,9 @@
           @if (category.image) {
             <img [src]="category.image" alt="{{ category.name }}" class="w-14 h-14 object-cover rounded-lg" />
           } @else {
-            <div class="w-14 h-14 bg-gray-200 rounded-lg"></div>
+            <div class="w-14 h-14 bg-gray-100 rounded-lg flex items-center justify-center">
+              <ng-icon size="24" name="matCategoryRound"></ng-icon>
+            </div>
           }
           <div class="text-base font-medium text-gray-900 w-32 line-clamp-2">{{ category.name }}</div>
         </div>
