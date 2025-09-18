@@ -1,1 +1,1 @@
-export const API_URL = 'https://barsac-api-production.up.railway.app';
+export const API_URL = 'https://sintacc-api-production.up.railway.app';
