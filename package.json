@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng deploy --base-href=https://www.sintacc.com.ar --cname=sintacc.com.ar --no-silent"
+    "deploy": "ng deploy --base-href=https://www.sintacc.com.ar --cname=www.sintacc.com.ar --no-silent"
   },
   "private": true,
   "dependencies": {
