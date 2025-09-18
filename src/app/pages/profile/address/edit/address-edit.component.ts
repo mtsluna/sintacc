@@ -140,6 +140,7 @@ export class AddressEditComponent implements AfterViewInit {
         } as unknown as Address).subscribe({
           next: async (address: Address) => {
             console.log('Address saved:', address);
+            localStorage.setItem(`selectedAddress_${userId}`, address.id);
             this.formGroup.reset();
             this.formGroup.setErrors(null);
             this.selectedAddress.set(null);

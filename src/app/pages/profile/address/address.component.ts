@@ -42,6 +42,7 @@ export class AddressComponent implements OnInit {
     this.addressService.selectAddress(address.id, address.user_id).subscribe({
       next: (next: Address) => {
         this.addresses = this.addresses.map(a => ({...a, selected: a.id === next.id}));
+        localStorage.setItem(`selectedAddress_${address.user_id}`, address.id);
       }
     })
   }

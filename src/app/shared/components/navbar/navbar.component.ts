@@ -5,7 +5,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {debounceTime, distinctUntilChanged} from 'rxjs';
+import {debounceTime, distinctUntilChanged, interval} from 'rxjs';
 import {Address} from '../../../interfaces/address';
 import {AddressService} from '../../../services/address/address.service';
 import { FirebaseAuthService } from '../../../services/firebase-auth.service';
@@ -52,6 +52,7 @@ export class NavbarComponent implements OnInit {
   showLoginModal = false;
   showProfileMenu = false;
   isLoggedIn: boolean = false;
+  private lastSelectedAddressId: string | null = null;
 
   constructor() {
     this.search.valueChanges.pipe(
@@ -83,11 +84,43 @@ export class NavbarComponent implements OnInit {
     })
 
     this.pickedAddress();
+    this.startAddressMonitoring();
   }
 
   async ngOnInit(): Promise<void> {
     this.listenToAuthState();
     return Promise.resolve();
+  }
+
+  private startAddressMonitoring() {
+    // Monitor localStorage every second for address changes
+    interval(1000).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      this.checkAddressChange();
+    });
+  }
+
+  private checkAddressChange() {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      // If no user, set default message if not already set
+      if (this.selectedAddress?.address !== 'Inicia sesión para ver tu dirección') {
+        this.selectedAddress = {
+          address: 'Inicia sesión para ver tu dirección',
+        } as unknown as Address;
+      }
+      this.lastSelectedAddressId = null;
+      return;
+    }
+
+    const currentSelectedAddressId = localStorage.getItem(`selectedAddress_${userId}`);
+
+    // Check if the selected address ID has changed
+    if (currentSelectedAddressId !== this.lastSelectedAddressId) {
+      this.lastSelectedAddressId = currentSelectedAddressId;
+      this.pickedAddress();
+    }
   }
 
   pickedAddress() {
@@ -96,6 +129,8 @@ export class NavbarComponent implements OnInit {
       this.addressService.getSelectedAddress(userId).subscribe({
         next: (value) => {
           this.selectedAddress = value;
+          localStorage.setItem(`selectedAddress_${userId}`, value.id);
+          this.lastSelectedAddressId = value.id;
         },
         error: (err) => {
           this.selectedAddress = {
