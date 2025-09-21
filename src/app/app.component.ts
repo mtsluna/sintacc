@@ -16,7 +16,7 @@ import {NgStyle} from '@angular/common';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'barsac';
+  title = 'nogluten';
   hiddenRoutes = ['/cart', '/detail', '/checkout', '/profile/address', '/profile/orders', '/admin/categories', 'privacy-policy', 'confirmation'];
 
   router = inject(Router);
