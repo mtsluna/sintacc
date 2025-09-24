@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {Product} from '../../interfaces/product';
 import {CurrencyPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,6 +9,7 @@ import {ProductService} from '../../services/product/product.service';
 import {firstValueFrom} from 'rxjs';
 import {CartService} from '../../services/cart/cart.service';
 import {SafeAreaService} from '../../services/safe-area/safe-area.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-detail',
@@ -33,13 +34,18 @@ export class DetailComponent implements OnInit {
   productService = inject(ProductService);
   cartService = inject(CartService);
   safeAreaService = inject(SafeAreaService);
+  $destroyRef = inject(DestroyRef);
 
   constructor() {}
 
   async ngOnInit(): Promise<void> {
-    const id = this.route?.snapshot.paramMap?.get('id');
+    this.route.paramMap.pipe(takeUntilDestroyed(this.$destroyRef)).subscribe({
+      next: async (params) => {
+        const id = params.get('id');
 
-    this.product = await firstValueFrom(this.productService.getProductById(id as string));
+        this.product = await firstValueFrom(this.productService.getProductById(id as string));
+      }
+    })
   }
 
   addProduct(product: Product | undefined) {

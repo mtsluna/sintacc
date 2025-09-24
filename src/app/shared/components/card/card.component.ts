@@ -38,7 +38,7 @@ export class CardComponent {
       queryParams: {
         from: this.router.url
       },
-      
+      onSameUrlNavigation: 'reload'
     });
     window.scrollTo(0, 0);
   }
