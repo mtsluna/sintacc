@@ -37,7 +37,8 @@ export class CardComponent {
     await this.router.navigate(['/detail', this.product?.id], {
       queryParams: {
         from: this.router.url
-      }
+      },
+      
     });
     window.scrollTo(0, 0);
   }
